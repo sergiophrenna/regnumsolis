@@ -3,8 +3,12 @@
 @font-face { font-family: "Sachsenwald"; src: url("./assets/fonts/sachsenwald-light.woff2") format("woff2"); font-weight: 300; font-display: swap; }
 :root {
   --notte: #16130D;
-  --sfondo: #C8561F;
-  --sfondo-scuro: #7A2E0E;
+  /* tricromia Mulciber: blu, rosso, giallo */
+  --blu: #203459;
+  --rosso: #D1322D;
+  --giallo: #F8AE03;
+  --sfondo: var(--blu);
+  --sfondo-scuro: #142240;
   --crepuscolo: #2A2416;
   --terra: #3D3821;
   --oro: #D2B262;
@@ -13,15 +17,15 @@
   --acqua-scura: #2D7674;
   --sangue: #CF5145;
   --bruno: #592D1C;
-  --pergamena: #FFF4E2;
-  --nebbia: #FFE2C2;
+  --pergamena: #FFFFFF;
+  --nebbia: #C9D3E8;
 
   /* colori dei semi, ripresi dalle carte */
-  --coppe: #E0685A;
-  --denari: #E2C46E;
-  --spade: #7FC4BC;
-  --bastoni: #E8915E;
-  --footer: #1F4644;
+  --coppe: #FF5A4E;
+  --denari: #F8AE03;
+  --spade: #18A4A9;
+  --bastoni: #F27A3D;
+  --footer: var(--rosso);
 
   --f-title: "Sachsenwald", "Cormorant SC", Georgia, serif;
   --f-display: "Cormorant SC", "Cormorant", Georgia, serif;
@@ -54,14 +58,14 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 /* Background: icon pattern tinted gold + vignette */
 body::before, body::after { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0; }
 body::before {
-  background-color: var(--sfondo-scuro);
+  background-color: #6F8BC4;
   -webkit-mask: url("./assets/brand/pattern.png") 0 0 / 420px auto repeat;
           mask: url("./assets/brand/pattern.png") 0 0 / 420px auto repeat;
   opacity: .09;
 }
 body::after {
   background:
-    radial-gradient(120% 75% at 50% 40%, rgba(240,146,62,.55) 0%, rgba(200,86,31,0) 58%, rgba(110,38,10,.55) 100%);
+    radial-gradient(120% 75% at 50% 40%, rgba(58,88,148,.55) 0%, rgba(32,52,89,0) 58%, rgba(14,24,44,.6) 100%);
 }
 
 /* ---------- Layout (mobile) ---------- */
@@ -76,6 +80,7 @@ body::after {
 }
 
 .topbar { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.chevrons { display: none; width: 18px; height: auto; fill: none; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
 .logo-rs { width: min(210px, 56vw); height: auto; }
 .kicker {
   margin: 0; font-family: var(--f-display); font-weight: 600; font-size: 13px; letter-spacing: .16em;
@@ -90,7 +95,18 @@ body::after {
   gap: 12px;
 }
 .deck { display: none; grid-area: deck; }
-.stage { grid-area: stage; min-height: 0; min-width: 0; display: flex; align-items: center; justify-content: center; container-type: size; }
+.stage { grid-area: stage; min-height: 0; min-width: 0; display: flex; align-items: center; justify-content: center; container-type: size; position: relative; }
+.stage::before, .stage::after { content: ""; position: absolute; z-index: 0; pointer-events: none; background: var(--rosso); }
+.stage::before {
+  width: min(96cqw, 74cqh); aspect-ratio: 1;
+  border-radius: 58% 42% 55% 45% / 48% 56% 44% 52%;
+  transform: translate(-12%, 12%) rotate(-8deg);
+}
+.stage::after {
+  width: min(18cqw, 13cqh); aspect-ratio: 1; border-radius: 50%;
+  top: 2%; left: calc(50% + min(38cqw, 27cqh));
+}
+.flip { position: relative; z-index: 1; }
 .panel { grid-area: panel; text-align: center; min-width: 0; }
 .actions { grid-area: actions; display: grid; gap: 10px; }
 
@@ -118,10 +134,10 @@ body::after {
   background: var(--bruno);
   box-shadow:
     0 18px 40px -6px rgba(0,0,0,.55),
-    0 0 28px rgba(210,178,98,.18);
+    0 0 28px rgba(248,174,3,.18);
 }
 .face img { width: 100%; height: 100%; object-fit: cover; }
-.face::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; box-shadow: inset 0 0 0 1.5px rgba(210,178,98,.85); }
+.face::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; box-shadow: inset 0 0 0 1.5px rgba(248,174,3,.85); }
 .face--front { transform: rotateY(180deg); background: #fff; }
 
 .flip.is-shuffling, .deck-stack.is-shuffling { animation: riffle 620ms ease-in-out; }
@@ -137,7 +153,7 @@ body::after {
 .panel-kicker, .panel-tip { display: none; }
 .divider { display: flex; align-items: center; gap: 10px; width: min(240px, 70%); margin: 0 auto 4px; }
 .divider span { flex: 1; height: 1px; background: rgba(255,244,226,.45); }
-.divider i { width: 8px; height: 8px; background: var(--pergamena); transform: rotate(45deg); }
+.divider i { width: 8px; height: 8px; background: var(--giallo); transform: rotate(45deg); }
 .card-name {
   margin: 0; font-family: var(--f-title); font-weight: 400;
   font-size: clamp(28px, 8.4vw, 36px); line-height: 1.1; color: var(--pergamena);
@@ -160,7 +176,7 @@ body::after {
   --seme: var(--pergamena);
   flex: none; display: inline-flex; align-items: center; gap: 8px;
   padding: 4px 10px 4px 8px; border-radius: 6px;
-  background: rgba(40,14,2,.45);
+  background: rgba(10,18,36,.5);
   white-space: nowrap; animation: fadeUp 300ms ease-out both;
 }
 .chip::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--seme); flex: none; }
@@ -186,19 +202,22 @@ body::after {
 }
 .btn i { width: 7px; height: 7px; background: currentColor; transform: rotate(45deg); flex: none; }
 .btn:active { transform: translateY(1px) scale(.99); }
-.btn--primary { background: var(--pergamena); color: var(--sfondo-scuro); }
-.btn--secondary { min-height: 48px; font-size: 17px; color: var(--pergamena); background: var(--pergamena); }
+.btn--primary { background: var(--giallo); color: var(--blu); }
+.btn--secondary { min-height: 48px; font-size: 17px; color: #fff; background: var(--rosso); }
 .btn--secondary::before {
   content: ""; position: absolute; inset: 1.5px; z-index: -1;
-  background: var(--sfondo);
+  background: var(--rosso);
   clip-path: polygon(var(--cut) 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, var(--cut) 100%, 0 calc(100% - var(--cut)), 0 var(--cut));
   transition: background 160ms ease;
 }
 @media (hover: hover) {
   .btn--primary:hover { filter: brightness(1.07); }
-  .btn--secondary:hover::before { background: #B24A17; }
+  .btn--secondary:hover::before { background: #B82A26; }
 }
 .btn[disabled] { opacity: .7; cursor: progress; }
+.btn.is-empty { opacity: .45; cursor: not-allowed; }
+.deck-stack.is-empty { opacity: .3; cursor: not-allowed; }
+.deck-stack.is-empty .deck-card { transform: none !important; }
 
 /* ---------- Footer ---------- */
 .site-footer {
@@ -217,7 +236,7 @@ body::after {
 .sf-links a[hidden] { display: none; }
 .sf-store {
   height: 38px; padding: 0 18px; border-radius: 999px;
-  font-family: var(--f-ui); font-weight: 600; font-size: 14px; letter-spacing: .02em;
+  font-family: var(--f-ui); font-weight: 800; font-size: 14px; letter-spacing: .04em; text-transform: uppercase;
   color: var(--footer); background: var(--pergamena);
 }
 .sf-store:hover { background: #fff; }
@@ -265,6 +284,7 @@ body::after {
   :root { --gutter: clamp(24px, 4.5vw, 64px); }
   .app { max-width: 1440px; gap: 24px; padding-top: 32px; padding-bottom: 32px; }
   .topbar { flex-direction: row; justify-content: space-between; }
+  .chevrons { display: block; }
   .site-footer { padding-top: 14px; padding-bottom: 14px; }
   .sf-brand img { width: 120px; }
   .sf-links { order: 3; }
@@ -285,8 +305,8 @@ body::after {
   .deck-card {
     position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
     border-radius: var(--radius-card);
-    box-shadow: inset 0 0 0 1.5px rgba(210,178,98,.85), 0 14px 30px -8px rgba(0,0,0,.6);
-    outline: 1.5px solid rgba(210,178,98,.7); outline-offset: -1.5px;
+    box-shadow: inset 0 0 0 1.5px rgba(248,174,3,.85), 0 14px 30px -8px rgba(0,0,0,.6);
+    outline: 1.5px solid rgba(248,174,3,.7); outline-offset: -1.5px;
     transition: transform 240ms ease;
   }
   .deck-card--3 { transform: translate(10px, -10px) rotate(2.5deg); }
@@ -303,7 +323,7 @@ body::after {
     padding: 0; background: none; border: 0; box-shadow: none;
   }
   .panel-kicker, .panel-tip { display: block; }
-  .panel-kicker { margin: 0 0 12px; font-family: var(--f-display); font-weight: 600; font-size: 14px; letter-spacing: .16em; text-transform: uppercase; color: rgba(210,178,98,.85); }
+  .panel-kicker { margin: 0 0 12px; font-family: var(--f-display); font-weight: 600; font-size: 14px; letter-spacing: .16em; text-transform: uppercase; color: rgba(248,174,3,.85); }
   .card-name { font-size: 42px; }
   .card-meta { font-size: 20px; margin-top: 6px; }
   .divider { order: 0; width: 100%; margin: 18px 0; }

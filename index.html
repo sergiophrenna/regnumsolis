@@ -3,22 +3,23 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#C8561F">
-  <meta name="description" content="Pesca una carta dal mazzo siciliano di Regnum Solis: 40 carte, con reinserimento.">
+  <meta name="theme-color" content="#203459">
+  <meta name="description" content="Pesca una carta dal mazzo siciliano di Regnum Solis: 40 carte, senza reinserimento.">
   <title>Regnum Solis · Il Mazzo Siciliano</title>
   <link rel="icon" type="image/png" href="./assets/brand/favicon.png">
   <link rel="apple-touch-icon" href="./assets/brand/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+SC:wght@500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+SC:wght@500;600;700&family=Open+Sans:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="preload" as="image" href="./assets/cards/retro.png">
   <link rel="preload" as="font" type="font/woff2" href="./assets/fonts/sachsenwald-regular.woff2" crossorigin>
-  <link rel="stylesheet" href="./style.css?v=8">
+  <link rel="stylesheet" href="./style.css?v=10">
 </head>
 <body>
   <div class="app">
     <header class="topbar">
       <img class="logo-rs" src="./assets/brand/regnum-solis-bianco.png" alt="Regnum Solis" width="900" height="224">
+      <svg class="chevrons" viewBox="0 0 22 62" aria-hidden="true"><path d="M3 3l13 9-13 9" stroke="#D1322D"/><path d="M3 22l13 9-13 9" stroke="#F8AE03"/><path d="M3 41l13 9-13 9" stroke="#FFFFFF"/></svg>
     </header>
 
     <main class="table">
@@ -28,7 +29,7 @@
           <img src="./assets/cards/retro.png" alt="" class="deck-card deck-card--2">
           <img src="./assets/cards/retro.png" alt="" class="deck-card deck-card--1">
         </button>
-        <p class="deck-hint">40 carte · Tocca per pescare</p>
+        <p class="deck-hint" id="deckHint">40 carte · Tocca per pescare</p>
       </section>
 
       <section class="stage" aria-label="Carta pescata">
@@ -47,11 +48,11 @@
           <p class="history-label">Ultime pescate</p>
           <ul class="chips" id="history"><li class="chips-empty">Nessuna pescata, per ora</li></ul>
         </div>
-        <p class="panel-tip">Ogni pescata è casuale su tutte le 40 carte: la carta torna sempre nel mazzo.</p>
+        <p class="panel-tip">Le carte pescate escono dal mazzo: tornano solo quando rimescoli.</p>
       </section>
 
       <div class="actions">
-        <button class="btn btn--primary" id="drawBtn" type="button"><i aria-hidden="true"></i>Pesca una carta<i aria-hidden="true"></i></button>
+        <button class="btn btn--primary" id="drawBtn" type="button"><i aria-hidden="true"></i><span id="drawLabel">Pesca una carta</span><i aria-hidden="true"></i></button>
         <button class="btn btn--secondary" id="shuffleBtn" type="button"><i aria-hidden="true"></i>Rimescola<i aria-hidden="true"></i></button>
       </div>
     </main>
@@ -72,6 +73,6 @@
       <p class="sf-copy">© 2026 Mulciber Press · Regnum Solis</p>
     </div>
   </footer>
-  <script src="./app.js?v=8" defer></script>
+  <script src="./app.js?v=10" defer></script>
 </body>
 </html>

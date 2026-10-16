@@ -1,7 +1,7 @@
 "use strict";
 
 /* Regnum Solis · Il Mazzo Siciliano
-   Pescata casuale con reinserimento: ogni estrazione è uniforme sulle 40 carte. */
+   Pescata casuale senza reinserimento: le carte uscite tornano nel mazzo solo con Rimescola. */
 
 const ASSETS = "./assets/cards/";
 const RETRO = ASSETS + "retro.png";
@@ -61,9 +61,12 @@ const els = {
   draw: $("drawBtn"),
   shuffle: $("shuffleBtn"),
   deck: $("deckBtn"),
+  hint: $("deckHint"),
+  drawLabel: $("drawLabel"),
 };
 
-const state = { count: 0, history: [], busy: false };
+const nuovoMazzo = () => MAZZO.map((_, i) => i);
+const state = { count: 0, history: [], busy: false, restanti: nuovoMazzo() };
 
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const FLIP_MS = reduceMotion ? 1 : 700;
@@ -111,15 +114,28 @@ function renderHistory() {
 
 function setBusy(on) {
   state.busy = on;
-  els.draw.disabled = on;
+  const vuoto = state.restanti.length === 0;
+  els.draw.disabled = on || vuoto;
   els.shuffle.disabled = on;
+  els.deck.disabled = vuoto;
+  els.deck.classList.toggle("is-empty", vuoto);
+  els.draw.classList.toggle("is-empty", vuoto);
+  els.drawLabel.textContent = vuoto ? "Mazzo esaurito" : "Pesca una carta";
+}
+
+function renderHint() {
+  const n = state.restanti.length;
+  els.hint.textContent = n === 0 ? "Mazzo esaurito · Rimescola"
+    : `${n} ${n === 1 ? "carta" : "carte"} · Tocca per pescare`;
 }
 
 async function draw() {
-  if (state.busy) return;
+  if (state.busy || !state.restanti.length) return;
   setBusy(true);
 
-  const card = MAZZO[randomIndex(MAZZO.length)]; // con reinserimento
+  // senza reinserimento: la carta esce dal mazzo fino al prossimo Rimescola
+  const [idx] = state.restanti.splice(randomIndex(state.restanti.length), 1);
+  const card = MAZZO[idx];
   const ready = preload(card.img);
 
   // Se una carta è già scoperta, la si rigira prima sul dorso
@@ -144,6 +160,7 @@ async function draw() {
   els.name.textContent = card.nome;
   retrigger(els.name, "is-new");
   renderHistory();
+  renderHint();
 
   els.flip.setAttribute("aria-label", `Carta pescata: ${card.nome}. Tocca per pescarne un'altra`);
   await wait(FLIP_MS * 0.55);
@@ -164,6 +181,8 @@ async function shuffle() {
 
   state.count = 0;
   state.history = [];
+  state.restanti = nuovoMazzo();
+  renderHint();
   els.front.src = RETRO;
   els.front.alt = "";
   els.name.textContent = "Mazzo rimescolato";

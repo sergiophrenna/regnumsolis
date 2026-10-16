@@ -1,6 +1,6 @@
 # Regnum Solis · Il Mazzo Siciliano
 
-Web app statica per pescare una carta dal mazzo siciliano di Regnum Solis (40 carte, con reinserimento).
+Web app statica per pescare una carta dal mazzo siciliano di Regnum Solis (40 carte, senza reinserimento).
 
 - Gira con solo HTML, CSS e JavaScript: nessun backend, nessuna build.
 - Pubblicabile così com'è su GitHub Pages.
@@ -18,8 +18,8 @@ assets/
 
 ## Logica
 
-- **Pesca**: ogni estrazione è casuale e uniforme sulle 40 carte. La carta torna sempre nel mazzo, quindi la stessa carta può uscire due volte di fila.
-- **Rimescola**: gira la carta sul dorso, anima il mazzo e azzera contatore e storico.
+- **Pesca**: ogni estrazione è casuale e uniforme sulle carte rimaste. La carta pescata esce dal mazzo; dopo 40 pescate il mazzo è esaurito.
+- **Rimescola**: rimette tutte le 40 carte nel mazzo, gira la carta sul dorso, anima il mazzo e azzera contatore e storico.
 - **Comandi**: Spazio o Invio pescano, R rimescola.
 - **Storico**: mostra le ultime pescate (3 su mobile, 5 su desktop).
 
