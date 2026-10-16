@@ -76,15 +76,15 @@ body::after {
   gap: 12px;
 }
 .deck { display: none; grid-area: deck; }
-.stage { grid-area: stage; min-height: 0; display: flex; align-items: center; justify-content: center; }
+.stage { grid-area: stage; min-height: 0; min-width: 0; display: flex; align-items: center; justify-content: center; container-type: size; }
 .panel { grid-area: panel; text-align: center; }
 .actions { grid-area: actions; display: grid; gap: 10px; }
 
 /* ---------- Card flip ---------- */
 .flip {
-  height: 100%; max-height: 440px;
+  --flip-max: 282px;
+  width: min(100cqw, 100cqh * 57 / 89, var(--flip-max));
   aspect-ratio: 57 / 89;
-  max-width: 100%;
   perspective: 1400px;
   border-radius: var(--radius-card);
 }
@@ -195,6 +195,13 @@ body::after {
   .footer { display: none; }
 }
 
+/* Tablet in verticale */
+@media (min-width: 600px) and (max-width: 959px) and (min-height: 760px) {
+  .app { max-width: 640px; }
+  .flip { --flip-max: 420px; }
+  .logo-rs { width: 240px; }
+}
+
 /* ---------- Phone in landscape ---------- */
 @media (orientation: landscape) and (max-height: 520px) and (max-width: 959px) {
   .app { max-width: 900px; grid-template-rows: auto minmax(0, 1fr); gap: 8px; padding-top: max(10px, env(safe-area-inset-top)); }
@@ -202,20 +209,20 @@ body::after {
   .logo-rs { width: 130px; }
   .footer { display: none; }
   .table {
-    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
     grid-template-rows: minmax(0, 1fr) auto;
     grid-template-areas: "stage panel" "stage actions";
     column-gap: 24px; align-items: center;
   }
   .stage { height: 100%; }
-  .flip { max-height: none; }
+  .flip { --flip-max: 100cqw; }
   .btn { min-height: 46px; }
   .btn--secondary { min-height: 40px; }
 }
 
 /* ---------- Desktop / tablet landscape ---------- */
 @media (min-width: 960px) and (min-height: 600px) {
-  :root { --gutter: 64px; }
+  :root { --gutter: clamp(24px, 4.5vw, 64px); }
   .app { max-width: 1440px; gap: 24px; padding-top: 32px; padding-bottom: 32px; }
   .topbar { flex-direction: row; justify-content: space-between; }
   .logo-rs { width: 232px; }
@@ -224,15 +231,16 @@ body::after {
   .logo-mp--top { display: block; width: 110px; height: auto; }
   .footer { display: none; }
 
+  /* 960–1199px: carta | pannello + azioni (mazzo nascosto) */
   .table {
-    grid-template-columns: minmax(260px, 300px) auto minmax(300px, 340px);
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
     grid-template-rows: 1fr auto;
-    grid-template-areas: "deck stage panel" "actions stage panel";
-    column-gap: clamp(40px, 5vw, 72px); row-gap: 24px;
-    justify-content: center; align-items: center;
+    grid-template-areas: "stage panel" "stage actions";
+    column-gap: clamp(32px, 5vw, 72px); row-gap: 18px;
+    align-items: center;
   }
-  .deck { display: flex; flex-direction: column; align-items: center; gap: 18px; align-self: end; }
-  .deck-stack { position: relative; width: 236px; aspect-ratio: 57 / 89; border-radius: var(--radius-card); }
+  .deck { display: none; flex-direction: column; align-items: center; gap: 18px; align-self: end; }
+  .deck-stack { position: relative; width: min(236px, 100%); aspect-ratio: 57 / 89; border-radius: var(--radius-card); }
   .deck-card {
     position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
     border-radius: var(--radius-card);
@@ -244,13 +252,13 @@ body::after {
   .deck-card--2 { transform: translate(5px, -5px) rotate(-2deg); }
   .deck-stack:hover .deck-card--1 { transform: translateY(-6px); }
   .deck-hint { margin: 0; font-style: italic; font-size: 15px; color: var(--nebbia); }
-  .actions { align-self: start; width: 300px; justify-self: center; }
+  .actions { align-self: start; width: 100%; justify-self: center; }
 
   .stage { height: 100%; }
-  .flip { height: min(100%, 640px); max-height: none; }
+  .flip { --flip-max: 410px; }
 
   .panel {
-    text-align: left; align-self: center;
+    text-align: left; align-self: end;
     padding: 28px; border-radius: 16px;
     background: rgba(42,36,22,.74);
     box-shadow: inset 0 0 0 1px rgba(210,178,98,.3);
@@ -271,6 +279,17 @@ body::after {
   .chips { flex-direction: column; align-items: flex-start; gap: 8px; }
   .chips li:nth-child(n+4) { display: inline-flex; }
   .chips li:nth-child(n+6) { display: none; }
+}
+
+/* ≥1200px: mazzo | carta | pannello */
+@media (min-width: 1200px) and (min-height: 600px) {
+  .table {
+    grid-template-columns: minmax(240px, 300px) minmax(0, 1fr) minmax(280px, 340px);
+    grid-template-areas: "deck stage panel" "actions stage panel";
+  }
+  .deck { display: flex; }
+  .actions { width: min(300px, 100%); }
+  .panel { align-self: center; }
 }
 
 @media (prefers-reduced-motion: reduce) {
