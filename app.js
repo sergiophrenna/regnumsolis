@@ -205,6 +205,28 @@ document.addEventListener("keydown", (e) => {
   else if (e.key === "r" || e.key === "R") shuffle();
 });
 
+// Le carte seguono il mouse: inclinazione 3D al passaggio
+if (window.matchMedia("(hover: hover) and (pointer: fine)").matches && !reduceMotion) {
+  for (const el of [els.flip, els.deck]) {
+    el.addEventListener("pointermove", (e) => {
+      if (el.disabled) return;
+      const r = el.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      el.classList.add("is-tilting");
+      el.style.setProperty("--ry", (x * 16).toFixed(2) + "deg");
+      el.style.setProperty("--rx", (-y * 12).toFixed(2) + "deg");
+      el.style.setProperty("--ty", "-6px");
+    });
+    el.addEventListener("pointerleave", () => {
+      el.classList.remove("is-tilting");
+      el.style.removeProperty("--rx");
+      el.style.removeProperty("--ry");
+      el.style.removeProperty("--ty");
+    });
+  }
+}
+
 // Precarica le immagini delle carte quando il browser è inattivo
 const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 1500));
 idle(() => MAZZO.forEach((c) => { const i = new Image(); i.src = c.img; }));

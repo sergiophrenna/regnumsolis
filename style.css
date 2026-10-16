@@ -28,7 +28,6 @@
   --footer: var(--rosso);
   --ombra: rgba(18,13,8,.76);
   --chip-bg: rgba(12,9,6,.6);
-  --ornato: var(--giallo);
 
   --f-title: "Sachsenwald", "Cormorant SC", Georgia, serif;
   --f-display: "Cormorant SC", "Cormorant", Georgia, serif;
@@ -100,29 +99,13 @@ body::after {
 .deck { display: none; grid-area: deck; }
 .stage { grid-area: stage; min-height: 0; min-width: 0; display: flex; align-items: center; justify-content: center; container-type: size; position: relative; }
 .flip { position: relative; z-index: 1; }
-/* Cornice ad angoli gotici (dalla scheda PG) dietro la carta */
-.flip::before {
-  content: ""; position: absolute; inset: calc(-1 * var(--frame)); z-index: -1; pointer-events: none;
-  background: var(--ornato);
-  -webkit-mask:
-    url("./assets/ornaments/angolo-tl.png") left top / var(--corner) auto no-repeat,
-    url("./assets/ornaments/angolo-tr.png") right top / var(--corner) auto no-repeat,
-    url("./assets/ornaments/angolo-bl.png") left bottom / var(--corner) auto no-repeat,
-    url("./assets/ornaments/angolo-br.png") right bottom / var(--corner) auto no-repeat;
-          mask:
-    url("./assets/ornaments/angolo-tl.png") left top / var(--corner) auto no-repeat,
-    url("./assets/ornaments/angolo-tr.png") right top / var(--corner) auto no-repeat,
-    url("./assets/ornaments/angolo-bl.png") left bottom / var(--corner) auto no-repeat,
-    url("./assets/ornaments/angolo-br.png") right bottom / var(--corner) auto no-repeat;
-}
 .panel { grid-area: panel; text-align: center; min-width: 0; }
 .actions { grid-area: actions; display: grid; gap: 10px; }
 
 /* ---------- Card flip ---------- */
 .flip {
   --flip-max: 282px;
-  --frame: 12px; --corner: 58px;
-  width: min(100cqw - 2 * var(--frame), (100cqh - 2 * var(--frame)) * 57 / 89, var(--flip-max));
+  width: min(100cqw, 100cqh * 57 / 89, var(--flip-max));
   aspect-ratio: 57 / 89;
   perspective: 1400px;
   border-radius: var(--radius-card);
@@ -222,6 +205,12 @@ body::after {
 @media (hover: hover) {
   .btn--primary:hover { filter: brightness(1.07); }
   .btn--secondary:hover::before { background: #B82A26; }
+  /* Inclinazione 3D che segue il mouse (impostata da app.js) */
+  .flip, .deck-stack {
+    transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(var(--ty, 0px));
+    transition: transform 380ms cubic-bezier(.2,.8,.2,1);
+  }
+  .is-tilting { transition-duration: 90ms; }
 }
 .btn[disabled] { opacity: .7; cursor: progress; }
 .btn.is-empty { opacity: .45; cursor: not-allowed; }
@@ -320,12 +309,14 @@ body::after {
   }
   .deck-card--3 { transform: translate(10px, -10px) rotate(2.5deg); }
   .deck-card--2 { transform: translate(5px, -5px) rotate(-2deg); }
-  .deck-stack:hover .deck-card--1 { transform: translateY(-6px); }
+  .deck-stack:hover .deck-card--3 { transform: translate(22px, -14px) rotate(7deg); }
+  .deck-stack:hover .deck-card--2 { transform: translate(10px, -9px) rotate(-4deg); }
+  .deck-stack:hover .deck-card--1 { transform: translate(-4px, -12px) rotate(-1.5deg); }
   .deck-hint { margin: 0; font-style: italic; font-size: 18px; color: var(--nebbia); }
   .actions { align-self: start; width: 100%; justify-self: center; }
 
   .stage { height: 100%; }
-  .flip { --flip-max: 410px; --frame: 20px; --corner: 92px; }
+  .flip { --flip-max: 410px; }
   .panel { position: relative; padding-left: 52px !important; }
   .panel::before {
     content: ""; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
