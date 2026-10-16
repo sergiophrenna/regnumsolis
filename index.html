@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#16130D">
+  <meta name="description" content="Pesca una carta dal mazzo siciliano di Regnum Solis: 40 carte, con reinserimento.">
+  <title>Regnum Solis · Il Mazzo Siciliano</title>
+  <link rel="icon" type="image/png" href="./assets/brand/favicon.png">
+  <link rel="apple-touch-icon" href="./assets/brand/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;1,400&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="./assets/cards/retro.png">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <img class="logo-rs" src="./assets/brand/regnum-solis-bianco.png" alt="Regnum Solis" width="900" height="224">
+      <p class="kicker">Il mazzo siciliano · 40 carte<span class="kicker-extra"> · con reinserimento</span></p>
+      <img class="logo-mp logo-mp--top" src="./assets/brand/mulciber-press.png" alt="Mulciber Press" width="900" height="226">
+    </header>
+
+    <main class="table">
+      <section class="deck" aria-label="Mazzo">
+        <button class="deck-stack" id="deckBtn" type="button" aria-label="Pesca una carta dal mazzo">
+          <img src="./assets/cards/retro.png" alt="" class="deck-card deck-card--3">
+          <img src="./assets/cards/retro.png" alt="" class="deck-card deck-card--2">
+          <img src="./assets/cards/retro.png" alt="" class="deck-card deck-card--1">
+        </button>
+        <p class="deck-hint">40 carte · Tocca per pescare</p>
+      </section>
+
+      <section class="stage" aria-label="Carta pescata">
+        <button class="flip" id="flip" type="button" aria-label="Pesca una carta">
+          <span class="flip-inner">
+            <span class="face face--back"><img src="./assets/cards/retro.png" alt="Retro della carta"></span>
+            <span class="face face--front"><img id="frontImg" src="./assets/cards/retro.png" alt=""></span>
+          </span>
+        </button>
+      </section>
+
+      <section class="panel" aria-live="polite">
+        <p class="panel-kicker">Carta pescata</p>
+        <div class="divider" aria-hidden="true"><span></span><i></i><span></span></div>
+        <h1 class="card-name" id="cardName">Tocca il mazzo</h1>
+        <p class="card-meta" id="cardMeta">Pesca una carta tra le 40 del mazzo</p>
+        <div class="history">
+          <p class="history-label">Ultime pescate</p>
+          <ul class="chips" id="history"><li class="chips-empty">Nessuna pescata, per ora</li></ul>
+        </div>
+        <p class="panel-tip">Ogni pescata è casuale su tutte le 40 carte: la carta torna sempre nel mazzo.</p>
+      </section>
+
+      <div class="actions">
+        <button class="btn btn--primary" id="drawBtn" type="button"><i aria-hidden="true"></i>Pesca una carta<i aria-hidden="true"></i></button>
+        <button class="btn btn--secondary" id="shuffleBtn" type="button"><i aria-hidden="true"></i>Rimescola<i aria-hidden="true"></i></button>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <img class="logo-mp" src="./assets/brand/mulciber-press.png" alt="Mulciber Press" width="900" height="226">
+      <span>Ogni carta torna nel mazzo</span>
+    </footer>
+  </div>
+  <script src="./app.js" defer></script>
+</body>
+</html>
