@@ -26,6 +26,9 @@
   --spade: #18A4A9;
   --bastoni: #F27A3D;
   --footer: var(--rosso);
+  --ombra: rgba(18,13,8,.76);
+  --chip-bg: rgba(12,9,6,.6);
+  --ornato: rgba(248,174,3,.92);
 
   --f-title: "Sachsenwald", "Cormorant SC", Georgia, serif;
   --f-display: "Cormorant SC", "Cormorant", Georgia, serif;
@@ -44,7 +47,7 @@ body {
   margin: 0;
   height: 100vh; height: 100dvh;
   display: grid; grid-template-rows: minmax(0, 1fr) auto;
-  background: var(--sfondo);
+  background: #15110C url("./assets/brand/mappa-sicilia-m.jpg") center / cover no-repeat;
   color: var(--pergamena);
   font-family: var(--f-body);
   -webkit-font-smoothing: antialiased;
@@ -55,17 +58,12 @@ img { display: block; max-width: 100%; }
 button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
 :focus-visible { outline: 2px solid var(--acqua); outline-offset: 4px; }
 
-/* Background: icon pattern tinted gold + vignette */
+/* Background: mappa della Sicilia in ombra + vignetta */
+@media (min-width: 700px) { body { background-image: url("./assets/brand/mappa-sicilia.jpg"); } }
 body::before, body::after { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0; }
-body::before {
-  background-color: #6F8BC4;
-  -webkit-mask: url("./assets/brand/pattern.png") 0 0 / 420px auto repeat;
-          mask: url("./assets/brand/pattern.png") 0 0 / 420px auto repeat;
-  opacity: .09;
-}
+body::before { background: var(--ombra); }
 body::after {
-  background:
-    radial-gradient(120% 75% at 50% 40%, rgba(58,88,148,.55) 0%, rgba(32,52,89,0) 58%, rgba(14,24,44,.6) 100%);
+  background: radial-gradient(120% 80% at 50% 45%, rgba(0,0,0,0) 35%, rgba(0,0,0,.55) 100%);
 }
 
 /* ---------- Layout (mobile) ---------- */
@@ -107,13 +105,29 @@ body::after {
   top: 2%; left: calc(50% + min(38cqw, 27cqh));
 }
 .flip { position: relative; z-index: 1; }
+/* Cornice ad angoli gotici (dalla scheda PG) dietro la carta */
+.flip::before {
+  content: ""; position: absolute; inset: calc(-1 * var(--frame)); z-index: -1; pointer-events: none;
+  background: var(--ornato);
+  -webkit-mask:
+    url("./assets/ornaments/angolo-tl.png") left top / var(--corner) auto no-repeat,
+    url("./assets/ornaments/angolo-tr.png") right top / var(--corner) auto no-repeat,
+    url("./assets/ornaments/angolo-bl.png") left bottom / var(--corner) auto no-repeat,
+    url("./assets/ornaments/angolo-br.png") right bottom / var(--corner) auto no-repeat;
+          mask:
+    url("./assets/ornaments/angolo-tl.png") left top / var(--corner) auto no-repeat,
+    url("./assets/ornaments/angolo-tr.png") right top / var(--corner) auto no-repeat,
+    url("./assets/ornaments/angolo-bl.png") left bottom / var(--corner) auto no-repeat,
+    url("./assets/ornaments/angolo-br.png") right bottom / var(--corner) auto no-repeat;
+}
 .panel { grid-area: panel; text-align: center; min-width: 0; }
 .actions { grid-area: actions; display: grid; gap: 10px; }
 
 /* ---------- Card flip ---------- */
 .flip {
   --flip-max: 282px;
-  width: min(100cqw, 100cqh * 57 / 89, var(--flip-max));
+  --frame: 12px; --corner: 58px;
+  width: min(100cqw - 2 * var(--frame), (100cqh - 2 * var(--frame)) * 57 / 89, var(--flip-max));
   aspect-ratio: 57 / 89;
   perspective: 1400px;
   border-radius: var(--radius-card);
@@ -152,7 +166,12 @@ body::after {
 /* ---------- Panel ---------- */
 .panel-kicker, .panel-tip { display: none; }
 .divider { display: flex; align-items: center; gap: 10px; width: min(240px, 70%); margin: 0 auto 4px; }
-.divider span { flex: 1; height: 1px; background: rgba(255,244,226,.45); }
+.divider span {
+  flex: 1; height: 14px; background: rgba(255,244,226,.85);
+  -webkit-mask: url("./assets/ornaments/corda.png") right center / contain no-repeat;
+          mask: url("./assets/ornaments/corda.png") right center / contain no-repeat;
+}
+.divider span:last-child { transform: scaleX(-1); }
 .divider i { width: 8px; height: 8px; background: var(--giallo); transform: rotate(45deg); }
 .card-name {
   margin: 0; font-family: var(--f-title); font-weight: 400;
@@ -165,7 +184,13 @@ body::after {
 .history { margin-top: 10px; }
 .history-label {
   margin: 0 0 6px; font-family: var(--f-display); font-weight: 600; font-size: 13px; letter-spacing: .14em;
-  text-transform: uppercase; color: rgba(255,244,226,.8);
+  text-transform: uppercase; color: rgba(255,244,226,.9);
+  display: inline-block; position: relative; padding: 5px 24px 4px;
+}
+.history-label::before {
+  content: ""; position: absolute; inset: 0; background: var(--ornato);
+  -webkit-mask: url("./assets/ornaments/cartiglio.png") 0 0 / 100% 100% no-repeat;
+          mask: url("./assets/ornaments/cartiglio.png") 0 0 / 100% 100% no-repeat;
 }
 .chips {
   list-style: none; margin: 0; padding: 0;
@@ -176,7 +201,7 @@ body::after {
   --seme: var(--pergamena);
   flex: none; display: inline-flex; align-items: center; gap: 8px;
   padding: 4px 10px 4px 8px; border-radius: 6px;
-  background: rgba(10,18,36,.5);
+  background: var(--chip-bg);
   white-space: nowrap; animation: fadeUp 300ms ease-out both;
 }
 .chip::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--seme); flex: none; }
@@ -316,7 +341,15 @@ body::after {
   .actions { align-self: start; width: 100%; justify-self: center; }
 
   .stage { height: 100%; }
-  .flip { --flip-max: 410px; }
+  .flip { --flip-max: 410px; --frame: 20px; --corner: 92px; }
+  .divider span { height: 20px; }
+  .panel { position: relative; padding-left: 52px !important; }
+  .panel::before {
+    content: ""; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+    height: min(100%, 440px); aspect-ratio: 133 / 1173; background: rgba(255,244,226,.5);
+    -webkit-mask: url("./assets/ornaments/colonna.png") center / contain no-repeat;
+            mask: url("./assets/ornaments/colonna.png") center / contain no-repeat;
+  }
 
   .panel {
     text-align: left; align-self: end;
@@ -354,3 +387,6 @@ body::after {
   :root { --flip-ms: 1ms; }
   .flip.is-lifting, .flip.is-shuffling, .deck-stack.is-shuffling, .chip, .is-new { animation: none !important; }
 }
+
+/* Telefoni stretti: 2 chip, così non vengono tagliate */
+@media (max-width: 420px) { .chips li:nth-child(n+3) { display: none; } }
