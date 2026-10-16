@@ -33,3 +33,8 @@ Esporta da Figma con lo stesso nome file in `assets/cards/`. Il nome segue lo sc
 2. Carica il contenuto di questa cartella nella radice del repository, cioè `index.html` al primo livello.
 3. Vai in Settings → Pages → Build and deployment. Come source scegli "Deploy from a branch", branch `main`, cartella `/ (root)`, poi Save.
 4. Dopo circa un minuto l'app è online su `https://<utente>.github.io/mazzo-siciliano/`.
+
+## Crediti
+
+- Icone Instagram e Discord: [Icons8](https://icons8.it)
+- Logo Kickstarter: marchio di Kickstarter, PBC

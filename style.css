@@ -3,6 +3,8 @@
 @font-face { font-family: "Sachsenwald"; src: url("./assets/fonts/sachsenwald-light.woff2") format("woff2"); font-weight: 300; font-display: swap; }
 :root {
   --notte: #16130D;
+  --sfondo: #C8561F;
+  --sfondo-scuro: #7A2E0E;
   --crepuscolo: #2A2416;
   --terra: #3D3821;
   --oro: #D2B262;
@@ -11,19 +13,20 @@
   --acqua-scura: #2D7674;
   --sangue: #CF5145;
   --bruno: #592D1C;
-  --pergamena: #F1E8D4;
-  --nebbia: #BFB49A;
+  --pergamena: #FFF4E2;
+  --nebbia: #FFE2C2;
 
   /* colori dei semi, ripresi dalle carte */
   --coppe: #E0685A;
   --denari: #E2C46E;
   --spade: #7FC4BC;
   --bastoni: #E8915E;
-  --footer: #2D7674;
+  --footer: #1F4644;
 
   --f-title: "Sachsenwald", "Cormorant SC", Georgia, serif;
   --f-display: "Cormorant SC", "Cormorant", Georgia, serif;
   --f-body: "Cormorant", Georgia, serif;
+  --f-ui: "Open Sans", system-ui, sans-serif;
 
   --chamfer: 10px;
   --radius-card: 14px;
@@ -37,7 +40,7 @@ body {
   margin: 0;
   height: 100vh; height: 100dvh;
   display: grid; grid-template-rows: minmax(0, 1fr) auto;
-  background: var(--notte);
+  background: var(--sfondo);
   color: var(--pergamena);
   font-family: var(--f-body);
   -webkit-font-smoothing: antialiased;
@@ -51,14 +54,14 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 /* Background: icon pattern tinted gold + vignette */
 body::before, body::after { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0; }
 body::before {
-  background-color: var(--oro);
+  background-color: var(--sfondo-scuro);
   -webkit-mask: url("./assets/brand/pattern.png") 0 0 / 420px auto repeat;
           mask: url("./assets/brand/pattern.png") 0 0 / 420px auto repeat;
   opacity: .09;
 }
 body::after {
   background:
-    radial-gradient(120% 70% at 50% 42%, rgba(118,93,44,.42) 0%, rgba(22,19,13,.35) 55%, rgba(22,19,13,.96) 100%);
+    radial-gradient(120% 75% at 50% 40%, rgba(240,146,62,.55) 0%, rgba(200,86,31,0) 58%, rgba(110,38,10,.55) 100%);
 }
 
 /* ---------- Layout (mobile) ---------- */
@@ -133,8 +136,8 @@ body::after {
 /* ---------- Panel ---------- */
 .panel-kicker, .panel-tip { display: none; }
 .divider { display: flex; align-items: center; gap: 10px; width: min(240px, 70%); margin: 0 auto 4px; }
-.divider span { flex: 1; height: 1px; background: rgba(210,178,98,.5); }
-.divider i { width: 8px; height: 8px; background: var(--oro); transform: rotate(45deg); }
+.divider span { flex: 1; height: 1px; background: rgba(255,244,226,.45); }
+.divider i { width: 8px; height: 8px; background: var(--pergamena); transform: rotate(45deg); }
 .card-name {
   margin: 0; font-family: var(--f-title); font-weight: 400;
   font-size: clamp(28px, 8.4vw, 36px); line-height: 1.1; color: var(--pergamena);
@@ -146,7 +149,7 @@ body::after {
 .history { margin-top: 10px; }
 .history-label {
   margin: 0 0 6px; font-family: var(--f-display); font-weight: 600; font-size: 13px; letter-spacing: .14em;
-  text-transform: uppercase; color: rgba(210,178,98,.8);
+  text-transform: uppercase; color: rgba(255,244,226,.8);
 }
 .chips {
   list-style: none; margin: 0; padding: 0;
@@ -157,7 +160,7 @@ body::after {
   --seme: var(--pergamena);
   flex: none; display: inline-flex; align-items: center; gap: 8px;
   padding: 4px 10px 4px 8px; border-radius: 6px;
-  background: color-mix(in srgb, var(--seme) 16%, transparent);
+  background: rgba(40,14,2,.45);
   white-space: nowrap; animation: fadeUp 300ms ease-out both;
 }
 .chip::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--seme); flex: none; }
@@ -166,9 +169,9 @@ body::after {
 .chip--spade   { --seme: var(--spade); }
 .chip--bastoni { --seme: var(--bastoni); }
 .chip b { font-family: var(--f-display); font-weight: 700; font-size: 15px; text-transform: uppercase; color: var(--pergamena); }
-.chip em { font-size: 16px; color: var(--seme); }
+.chip em { font-size: 16px; color: rgba(255,244,226,.85); }
 .chips li:nth-child(n+4) { display: none; }
-.chips-empty { font-style: italic; font-size: 16px; color: rgba(191,180,154,.7); align-self: center; }
+.chips-empty { font-style: italic; font-size: 16px; color: rgba(255,244,226,.7); align-self: center; }
 
 /* ---------- Buttons (chamfered, Daggerheart-like) ---------- */
 .btn {
@@ -183,17 +186,17 @@ body::after {
 }
 .btn i { width: 7px; height: 7px; background: currentColor; transform: rotate(45deg); flex: none; }
 .btn:active { transform: translateY(1px) scale(.99); }
-.btn--primary { background: linear-gradient(180deg, #E2C77E 0%, var(--oro) 55%, #B8974A 100%); color: var(--notte); }
-.btn--secondary { min-height: 48px; font-size: 17px; color: var(--oro); background: var(--oro); }
+.btn--primary { background: var(--pergamena); color: var(--sfondo-scuro); }
+.btn--secondary { min-height: 48px; font-size: 17px; color: var(--pergamena); background: var(--pergamena); }
 .btn--secondary::before {
   content: ""; position: absolute; inset: 1.5px; z-index: -1;
-  background: var(--notte);
+  background: var(--sfondo);
   clip-path: polygon(var(--cut) 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, var(--cut) 100%, 0 calc(100% - var(--cut)), 0 var(--cut));
   transition: background 160ms ease;
 }
 @media (hover: hover) {
   .btn--primary:hover { filter: brightness(1.07); }
-  .btn--secondary:hover::before { background: var(--crepuscolo); }
+  .btn--secondary:hover::before { background: #B24A17; }
 }
 .btn[disabled] { opacity: .7; cursor: progress; }
 
@@ -206,20 +209,19 @@ body::after {
 }
 .sf-inner { max-width: 1440px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .sf-brand img { width: 92px; height: auto; }
-.sf-links { display: flex; gap: 6px; }
-.sf-links a {
-  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  min-width: 44px; height: 44px; padding: 0 10px; border-radius: 8px;
-  color: var(--pergamena); text-decoration: none;
-  font-family: var(--f-display); font-weight: 600; font-size: 16px; letter-spacing: .06em;
-  background: rgba(255,255,255,.08);
-  transition: background 160ms ease;
+.sf-links { display: flex; align-items: center; gap: 8px; }
+.sf-links a { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; transition: background 160ms ease, opacity 160ms ease; }
+.sf-icon { width: 44px; height: 44px; border-radius: 50%; }
+.sf-icon img { width: 22px; height: 22px; object-fit: contain; }
+.sf-icon:hover { background: rgba(255,255,255,.12); }
+.sf-links a[hidden] { display: none; }
+.sf-store {
+  height: 38px; padding: 0 18px; border-radius: 999px;
+  font-family: var(--f-ui); font-weight: 600; font-size: 14px; letter-spacing: .02em;
+  color: var(--footer); background: var(--pergamena);
 }
-.sf-links a:hover { background: rgba(255,255,255,.18); }
-.sf-links svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.sf-links svg .dot { fill: currentColor; stroke: none; }
-.sf-links span, .sf-copy { display: none; }
-.sf-copy { margin: 0; font-style: italic; font-size: 15px; color: rgba(241,232,212,.75); }
+.sf-store:hover { background: #fff; }
+.sf-copy { display: none; margin: 0; font-family: var(--f-ui); font-size: 13px; color: rgba(241,232,212,.7); }
 
 /* Very short phones: tighten */
 @media (max-height: 680px) {
@@ -230,7 +232,8 @@ body::after {
   .btn { min-height: 50px; }
   .btn--secondary { min-height: 42px; }
   .site-footer { padding-top: 6px; padding-bottom: max(6px, env(safe-area-inset-bottom)); }
-  .sf-links a { height: 38px; min-width: 38px; }
+  .sf-icon { width: 38px; height: 38px; }
+  .sf-store { height: 34px; }
 }
 
 /* Tablet in verticale */
@@ -265,8 +268,7 @@ body::after {
   .site-footer { padding-top: 14px; padding-bottom: 14px; }
   .sf-brand img { width: 120px; }
   .sf-links { order: 3; }
-  .sf-links a { padding: 0 16px; }
-  .sf-links span, .sf-copy { display: inline; }
+  .sf-copy { display: inline; }
   .logo-rs { width: 232px; }
   .kicker { font-size: 15px; }
 
@@ -310,7 +312,7 @@ body::after {
   .panel .card-name { order: 1; }
   .panel .card-meta { order: 2; }
   .panel .history { order: 4; margin-top: 0; }
-  .panel .panel-tip { order: 5; margin: 18px 0 0; font-size: 17px; color: rgba(191,180,154,.85); line-height: 1.45; }
+  .panel .panel-tip { order: 5; margin: 18px 0 0; font-size: 17px; color: rgba(255,244,226,.85); line-height: 1.45; }
   .history-label { font-size: 14px; margin-bottom: 10px; }
   .chips { flex-direction: column; align-items: flex-start; gap: 8px; }
   .chips li:nth-child(n+4) { display: inline-flex; }
