@@ -1,4 +1,6 @@
 /* Regnum Solis · Il Mazzo Siciliano — mobile-first */
+@font-face { font-family: "Sachsenwald"; src: url("./assets/fonts/sachsenwald-regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Sachsenwald"; src: url("./assets/fonts/sachsenwald-light.woff2") format("woff2"); font-weight: 300; font-display: swap; }
 :root {
   --notte: #16130D;
   --crepuscolo: #2A2416;
@@ -12,8 +14,9 @@
   --pergamena: #F1E8D4;
   --nebbia: #BFB49A;
 
-  --f-display: "Cinzel", "Trajan Pro", Georgia, serif;
-  --f-body: "Alegreya", Georgia, serif;
+  --f-title: "Sachsenwald", "Cormorant SC", Georgia, serif;
+  --f-display: "Cormorant SC", "Cormorant", Georgia, serif;
+  --f-body: "Cormorant", Georgia, serif;
 
   --chamfer: 10px;
   --radius-card: 14px;
@@ -63,7 +66,7 @@ body::after {
 .topbar { display: flex; flex-direction: column; align-items: center; gap: 6px; }
 .logo-rs { width: min(210px, 56vw); height: auto; }
 .kicker {
-  margin: 0; font-family: var(--f-display); font-size: 10px; letter-spacing: .22em;
+  margin: 0; font-family: var(--f-display); font-weight: 600; font-size: 13px; letter-spacing: .16em;
   text-transform: uppercase; color: var(--acqua); text-align: center;
 }
 .kicker-extra, .logo-mp--top { display: none; }
@@ -125,16 +128,16 @@ body::after {
 .divider span { flex: 1; height: 1px; background: rgba(210,178,98,.5); }
 .divider i { width: 8px; height: 8px; background: var(--oro); transform: rotate(45deg); }
 .card-name {
-  margin: 0; font-family: var(--f-display); font-weight: 700;
-  font-size: clamp(22px, 6.6vw, 28px); line-height: 1.15; color: var(--pergamena);
+  margin: 0; font-family: var(--f-title); font-weight: 400;
+  font-size: clamp(28px, 8.4vw, 36px); line-height: 1.1; color: var(--pergamena);
 }
-.card-meta { margin: 2px 0 0; font-style: italic; font-size: 15px; color: var(--nebbia); }
+.card-meta { margin: 2px 0 0; font-style: italic; font-size: 18px; color: var(--nebbia); }
 .card-name.is-new, .card-meta.is-new { animation: fadeUp 420ms ease-out both; }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
 .history { margin-top: 10px; }
 .history-label {
-  margin: 0 0 6px; font-family: var(--f-display); font-size: 10px; letter-spacing: .2em;
+  margin: 0 0 6px; font-family: var(--f-display); font-weight: 600; font-size: 13px; letter-spacing: .14em;
   text-transform: uppercase; color: rgba(210,178,98,.8);
 }
 .chips {
@@ -148,10 +151,10 @@ body::after {
   background: var(--terra); box-shadow: inset 0 0 0 1px rgba(210,178,98,.35);
   white-space: nowrap; animation: fadeUp 300ms ease-out both;
 }
-.chip b { font-family: var(--f-display); font-size: 12px; text-transform: uppercase; color: var(--pergamena); }
-.chip em { font-size: 13px; color: var(--acqua); }
+.chip b { font-family: var(--f-display); font-weight: 700; font-size: 15px; text-transform: uppercase; color: var(--pergamena); }
+.chip em { font-size: 16px; color: var(--acqua); }
 .chips li:nth-child(n+4) { display: none; }
-.chips-empty { font-style: italic; font-size: 13px; color: rgba(191,180,154,.7); align-self: center; }
+.chips-empty { font-style: italic; font-size: 16px; color: rgba(191,180,154,.7); align-self: center; }
 
 /* ---------- Buttons (chamfered, Daggerheart-like) ---------- */
 .btn {
@@ -159,7 +162,7 @@ body::after {
   position: relative; isolation: isolate;
   display: flex; align-items: center; justify-content: center; gap: 12px;
   width: 100%; min-height: 56px; padding: 0 24px;
-  font-family: var(--f-display); font-weight: 700; font-size: 16px; letter-spacing: .12em; text-transform: uppercase;
+  font-family: var(--f-display); font-weight: 700; font-size: 19px; letter-spacing: .1em; text-transform: uppercase;
   clip-path: polygon(var(--cut) 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, var(--cut) 100%, 0 calc(100% - var(--cut)), 0 var(--cut));
   transition: transform 120ms ease, filter 160ms ease;
   touch-action: manipulation;
@@ -167,7 +170,7 @@ body::after {
 .btn i { width: 7px; height: 7px; background: currentColor; transform: rotate(45deg); flex: none; }
 .btn:active { transform: translateY(1px) scale(.99); }
 .btn--primary { background: linear-gradient(180deg, #E2C77E 0%, var(--oro) 55%, #B8974A 100%); color: var(--notte); }
-.btn--secondary { min-height: 48px; font-size: 14px; color: var(--oro); background: var(--oro); }
+.btn--secondary { min-height: 48px; font-size: 17px; color: var(--oro); background: var(--oro); }
 .btn--secondary::before {
   content: ""; position: absolute; inset: 1.5px; z-index: -1;
   background: var(--notte);
@@ -181,7 +184,7 @@ body::after {
 .btn[disabled] { opacity: .7; cursor: progress; }
 
 /* ---------- Footer ---------- */
-.footer { display: flex; align-items: center; justify-content: center; gap: 8px; font-style: italic; font-size: 12px; color: rgba(191,180,154,.8); }
+.footer { display: flex; align-items: center; justify-content: center; gap: 8px; font-style: italic; font-size: 15px; color: rgba(191,180,154,.8); }
 .footer .logo-mp { width: 64px; height: auto; }
 
 /* Very short phones: tighten */
@@ -226,7 +229,7 @@ body::after {
   .app { max-width: 1440px; gap: 24px; padding-top: 32px; padding-bottom: 32px; }
   .topbar { flex-direction: row; justify-content: space-between; }
   .logo-rs { width: 232px; }
-  .kicker { font-size: 12px; }
+  .kicker { font-size: 15px; }
   .kicker-extra, .logo-mp--top { display: inline; }
   .logo-mp--top { display: block; width: 110px; height: auto; }
   .footer { display: none; }
@@ -251,7 +254,7 @@ body::after {
   .deck-card--3 { transform: translate(10px, -10px) rotate(2.5deg); }
   .deck-card--2 { transform: translate(5px, -5px) rotate(-2deg); }
   .deck-stack:hover .deck-card--1 { transform: translateY(-6px); }
-  .deck-hint { margin: 0; font-style: italic; font-size: 15px; color: var(--nebbia); }
+  .deck-hint { margin: 0; font-style: italic; font-size: 18px; color: var(--nebbia); }
   .actions { align-self: start; width: 100%; justify-self: center; }
 
   .stage { height: 100%; }
@@ -265,17 +268,17 @@ body::after {
     -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
   }
   .panel-kicker, .panel-tip { display: block; }
-  .panel-kicker { margin: 0 0 12px; font-family: var(--f-display); font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: rgba(210,178,98,.85); }
-  .card-name { font-size: 34px; }
-  .card-meta { font-size: 17px; margin-top: 6px; }
+  .panel-kicker { margin: 0 0 12px; font-family: var(--f-display); font-weight: 600; font-size: 14px; letter-spacing: .16em; text-transform: uppercase; color: rgba(210,178,98,.85); }
+  .card-name { font-size: 42px; }
+  .card-meta { font-size: 20px; margin-top: 6px; }
   .divider { order: 0; width: 100%; margin: 18px 0; }
   .panel { display: flex; flex-direction: column; }
   .panel .divider { order: 3; }
   .panel .card-name { order: 1; }
   .panel .card-meta { order: 2; }
   .panel .history { order: 4; margin-top: 0; }
-  .panel .panel-tip { order: 5; margin: 18px 0 0; font-size: 14px; color: rgba(191,180,154,.85); line-height: 1.45; }
-  .history-label { font-size: 11px; margin-bottom: 10px; }
+  .panel .panel-tip { order: 5; margin: 18px 0 0; font-size: 17px; color: rgba(191,180,154,.85); line-height: 1.45; }
+  .history-label { font-size: 14px; margin-bottom: 10px; }
   .chips { flex-direction: column; align-items: flex-start; gap: 8px; }
   .chips li:nth-child(n+4) { display: inline-flex; }
   .chips li:nth-child(n+6) { display: none; }
