@@ -14,7 +14,7 @@ const MAZZO = [
   { seme: "coppe",   numero: 5,  nome: "Cinque di Coppe",     img: ASSETS + "coppe_5.png" },
   { seme: "coppe",   numero: 6,  nome: "Sei di Coppe",        img: ASSETS + "coppe_6.png" },
   { seme: "coppe",   numero: 7,  nome: "Sette di Coppe",      img: ASSETS + "coppe_7.png" },
-  { seme: "coppe",   numero: 8,  nome: "Fante di Coppe",      img: ASSETS + "coppe_8.png" },
+  { seme: "coppe",   numero: 8,  nome: "Donna di Coppe",      img: ASSETS + "coppe_8.png" },
   { seme: "coppe",   numero: 9,  nome: "Cavallo di Coppe",    img: ASSETS + "coppe_9.png" },
   { seme: "coppe",   numero: 10, nome: "Re di Coppe",         img: ASSETS + "coppe_10.png" },
   { seme: "bastoni", numero: 1,  nome: "Asso di Bastoni",     img: ASSETS + "bastoni_1.png" },
@@ -24,7 +24,7 @@ const MAZZO = [
   { seme: "bastoni", numero: 5,  nome: "Cinque di Bastoni",   img: ASSETS + "bastoni_5.png" },
   { seme: "bastoni", numero: 6,  nome: "Sei di Bastoni",      img: ASSETS + "bastoni_6.png" },
   { seme: "bastoni", numero: 7,  nome: "Sette di Bastoni",    img: ASSETS + "bastoni_7.png" },
-  { seme: "bastoni", numero: 8,  nome: "Fante di Bastoni",    img: ASSETS + "bastoni_8.png" },
+  { seme: "bastoni", numero: 8,  nome: "Donna di Bastoni",    img: ASSETS + "bastoni_8.png" },
   { seme: "bastoni", numero: 9,  nome: "Cavallo di Bastoni",  img: ASSETS + "bastoni_9.png" },
   { seme: "bastoni", numero: 10, nome: "Re di Bastoni",       img: ASSETS + "bastoni_10.png" },
   { seme: "spade",   numero: 1,  nome: "Asso di Spade",       img: ASSETS + "spade_1.png" },
@@ -34,7 +34,7 @@ const MAZZO = [
   { seme: "spade",   numero: 5,  nome: "Cinque di Spade",     img: ASSETS + "spade_5.png" },
   { seme: "spade",   numero: 6,  nome: "Sei di Spade",        img: ASSETS + "spade_6.png" },
   { seme: "spade",   numero: 7,  nome: "Sette di Spade",      img: ASSETS + "spade_7.png" },
-  { seme: "spade",   numero: 8,  nome: "Fante di Spade",      img: ASSETS + "spade_8.png" },
+  { seme: "spade",   numero: 8,  nome: "Donna di Spade",      img: ASSETS + "spade_8.png" },
   { seme: "spade",   numero: 9,  nome: "Cavallo di Spade",    img: ASSETS + "spade_9.png" },
   { seme: "spade",   numero: 10, nome: "Re di Spade",         img: ASSETS + "spade_10.png" },
   { seme: "denari",  numero: 1,  nome: "Asso di Denari",      img: ASSETS + "denari_1.png" },
@@ -44,12 +44,12 @@ const MAZZO = [
   { seme: "denari",  numero: 5,  nome: "Cinque di Denari",    img: ASSETS + "denari_5.png" },
   { seme: "denari",  numero: 6,  nome: "Sei di Denari",       img: ASSETS + "denari_6.png" },
   { seme: "denari",  numero: 7,  nome: "Sette di Denari",     img: ASSETS + "denari_7.png" },
-  { seme: "denari",  numero: 8,  nome: "Fante di Denari",     img: ASSETS + "denari_8.png" },
+  { seme: "denari",  numero: 8,  nome: "Donna di Denari",     img: ASSETS + "denari_8.png" },
   { seme: "denari",  numero: 9,  nome: "Cavallo di Denari",   img: ASSETS + "denari_9.png" },
   { seme: "denari",  numero: 10, nome: "Re di Denari",        img: ASSETS + "denari_10.png" },
 ];
 
-const VALORI = ["Asso", "2", "3", "4", "5", "6", "7", "Fante", "Cavallo", "Re"];
+const VALORI = ["Asso", "2", "3", "4", "5", "6", "7", "Donna", "Cavallo", "Re"];
 const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
 const $ = (id) => document.getElementById(id);
@@ -104,7 +104,7 @@ function renderHistory() {
   }
   for (const c of state.history) {
     const li = document.createElement("li");
-    li.className = "chip";
+    li.className = "chip chip--" + c.seme;
     li.innerHTML = `<b>${VALORI[c.numero - 1]}</b><em>${capitalize(c.seme)}</em>`;
     els.history.appendChild(li);
   }

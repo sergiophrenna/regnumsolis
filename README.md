@@ -25,7 +25,7 @@ assets/
 
 ## Sostituire le immagini
 
-Esporta da Figma con lo stesso nome file in `assets/cards/`. Il nome segue lo schema `[seme]_[numero].png`, con numero da 1 a 10 (8 = Fante, 9 = Cavallo, 10 = Re). Usa il formato 57:89.
+Esporta da Figma con lo stesso nome file in `assets/cards/`. Il nome segue lo schema `[seme]_[numero].png`, con numero da 1 a 10 (8 = Donna, 9 = Cavallo, 10 = Re). Usa il formato 57:89.
 
 ## Pubblicazione su GitHub Pages
 
