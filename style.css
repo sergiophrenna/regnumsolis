@@ -19,6 +19,7 @@
   --denari: #E2C46E;
   --spade: #7FC4BC;
   --bastoni: #E8915E;
+  --footer: #2D7674;
 
   --f-title: "Sachsenwald", "Cormorant SC", Georgia, serif;
   --f-display: "Cormorant SC", "Cormorant", Georgia, serif;
@@ -34,6 +35,8 @@
 html, body { height: 100%; }
 body {
   margin: 0;
+  height: 100vh; height: 100dvh;
+  display: grid; grid-template-rows: minmax(0, 1fr) auto;
   background: var(--notte);
   color: var(--pergamena);
   font-family: var(--f-body);
@@ -61,11 +64,11 @@ body::after {
 /* ---------- Layout (mobile) ---------- */
 .app {
   position: relative; z-index: 1;
-  height: 100vh; height: 100dvh;
+  min-height: 0; width: 100%;
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
-  gap: 10px;
-  padding: max(16px, env(safe-area-inset-top)) var(--gutter) max(14px, env(safe-area-inset-bottom));
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 12px;
+  padding: max(16px, env(safe-area-inset-top)) var(--gutter) 14px;
   max-width: 520px; margin: 0 auto;
 }
 
@@ -75,7 +78,6 @@ body::after {
   margin: 0; font-family: var(--f-display); font-weight: 600; font-size: 13px; letter-spacing: .16em;
   text-transform: uppercase; color: var(--acqua); text-align: center;
 }
-.kicker-extra, .logo-mp--top { display: none; }
 
 .table {
   min-height: 0;
@@ -86,7 +88,7 @@ body::after {
 }
 .deck { display: none; grid-area: deck; }
 .stage { grid-area: stage; min-height: 0; min-width: 0; display: flex; align-items: center; justify-content: center; container-type: size; }
-.panel { grid-area: panel; text-align: center; }
+.panel { grid-area: panel; text-align: center; min-width: 0; }
 .actions { grid-area: actions; display: grid; gap: 10px; }
 
 /* ---------- Card flip ---------- */
@@ -196,8 +198,28 @@ body::after {
 .btn[disabled] { opacity: .7; cursor: progress; }
 
 /* ---------- Footer ---------- */
-.footer { display: flex; align-items: center; justify-content: center; gap: 8px; font-style: italic; font-size: 15px; color: rgba(191,180,154,.8); }
-.footer .logo-mp { width: 64px; height: auto; }
+.site-footer {
+  position: relative; z-index: 1;
+  background: var(--footer);
+  color: var(--pergamena);
+  padding: 10px var(--gutter) max(10px, env(safe-area-inset-bottom));
+}
+.sf-inner { max-width: 1440px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.sf-brand img { width: 92px; height: auto; }
+.sf-links { display: flex; gap: 6px; }
+.sf-links a {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-width: 44px; height: 44px; padding: 0 10px; border-radius: 8px;
+  color: var(--pergamena); text-decoration: none;
+  font-family: var(--f-display); font-weight: 600; font-size: 16px; letter-spacing: .06em;
+  background: rgba(255,255,255,.08);
+  transition: background 160ms ease;
+}
+.sf-links a:hover { background: rgba(255,255,255,.18); }
+.sf-links svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.sf-links svg .dot { fill: currentColor; stroke: none; }
+.sf-links span, .sf-copy { display: none; }
+.sf-copy { margin: 0; font-style: italic; font-size: 15px; color: rgba(241,232,212,.75); }
 
 /* Very short phones: tighten */
 @media (max-height: 680px) {
@@ -207,7 +229,8 @@ body::after {
   .history { margin-top: 6px; }
   .btn { min-height: 50px; }
   .btn--secondary { min-height: 42px; }
-  .footer { display: none; }
+  .site-footer { padding-top: 6px; padding-bottom: max(6px, env(safe-area-inset-bottom)); }
+  .sf-links a { height: 38px; min-width: 38px; }
 }
 
 /* Tablet in verticale */
@@ -222,7 +245,6 @@ body::after {
   .app { max-width: 900px; grid-template-rows: auto minmax(0, 1fr); gap: 8px; padding-top: max(10px, env(safe-area-inset-top)); }
   .topbar { flex-direction: row; justify-content: center; gap: 14px; }
   .logo-rs { width: 130px; }
-  .footer { display: none; }
   .table {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
     grid-template-rows: minmax(0, 1fr) auto;
@@ -240,11 +262,13 @@ body::after {
   :root { --gutter: clamp(24px, 4.5vw, 64px); }
   .app { max-width: 1440px; gap: 24px; padding-top: 32px; padding-bottom: 32px; }
   .topbar { flex-direction: row; justify-content: space-between; }
+  .site-footer { padding-top: 14px; padding-bottom: 14px; }
+  .sf-brand img { width: 120px; }
+  .sf-links { order: 3; }
+  .sf-links a { padding: 0 16px; }
+  .sf-links span, .sf-copy { display: inline; }
   .logo-rs { width: 232px; }
   .kicker { font-size: 15px; }
-  .kicker-extra, .logo-mp--top { display: inline; }
-  .logo-mp--top { display: block; width: 110px; height: auto; }
-  .footer { display: none; }
 
   /* 960–1199px: carta | pannello + azioni (mazzo nascosto) */
   .table {

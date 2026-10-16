@@ -13,13 +13,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+SC:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="preload" as="image" href="./assets/cards/retro.png">
   <link rel="preload" as="font" type="font/woff2" href="./assets/fonts/sachsenwald-regular.woff2" crossorigin>
-  <link rel="stylesheet" href="./style.css?v=5">
+  <link rel="stylesheet" href="./style.css?v=6">
 </head>
 <body>
   <div class="app">
     <header class="topbar">
       <img class="logo-rs" src="./assets/brand/regnum-solis-bianco.png" alt="Regnum Solis" width="900" height="224">
-      <img class="logo-mp logo-mp--top" src="./assets/brand/mulciber-press.png" alt="Mulciber Press" width="900" height="226">
     </header>
 
     <main class="table">
@@ -57,11 +56,30 @@
       </div>
     </main>
 
-    <footer class="footer">
-      <img class="logo-mp" src="./assets/brand/mulciber-press.png" alt="Mulciber Press" width="900" height="226">
-      <span>Ogni carta torna nel mazzo</span>
-    </footer>
   </div>
-  <script src="./app.js?v=5" defer></script>
+
+  <footer class="site-footer">
+    <div class="sf-inner">
+      <a class="sf-brand" href="https://mulciber-games.sumupstore.com/pagina/chi-siamo" target="_blank" rel="noopener">
+        <img src="./assets/brand/mulciber-press.png" alt="Mulciber Press" width="600" height="138">
+      </a>
+      <nav class="sf-links" aria-label="Canali Mulciber Press">
+        <a href="https://mulciber-games.sumupstore.com/" target="_blank" rel="noopener" aria-label="Store">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+          <span>Store</span>
+        </a>
+        <a href="https://instagram.com/regnumsolis" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="0.6" class="dot"/></svg>
+          <span>Instagram</span>
+        </a>
+        <a href="https://www.kickstarter.com/projects/mulcibergames/regnum-solis-la-sicilia-medievale-in-gdr" target="_blank" rel="noopener" aria-label="Kickstarter">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4v16M8 12l7-8M10.5 9.2 16 20"/></svg>
+          <span>Kickstarter</span>
+        </a>
+      </nav>
+      <p class="sf-copy">© 2026 Mulciber Press · Regnum Solis</p>
+    </div>
+  </footer>
+  <script src="./app.js?v=6" defer></script>
 </body>
 </html>
