@@ -57,7 +57,6 @@ const els = {
   flip: $("flip"),
   front: $("frontImg"),
   name: $("cardName"),
-  meta: $("cardMeta"),
   history: $("history"),
   draw: $("drawBtn"),
   shuffle: $("shuffleBtn"),
@@ -143,9 +142,7 @@ async function draw() {
 
   await wait(FLIP_MS * 0.45);
   els.name.textContent = card.nome;
-  els.meta.textContent = `${capitalize(card.seme)} · ${card.numero} · estrazione n. ${state.count}`;
   retrigger(els.name, "is-new");
-  retrigger(els.meta, "is-new");
   renderHistory();
 
   els.flip.setAttribute("aria-label", `Carta pescata: ${card.nome}. Tocca per pescarne un'altra`);
@@ -170,9 +167,7 @@ async function shuffle() {
   els.front.src = RETRO;
   els.front.alt = "";
   els.name.textContent = "Mazzo rimescolato";
-  els.meta.textContent = "Pesca una carta tra le 40 del mazzo";
   retrigger(els.name, "is-new");
-  retrigger(els.meta, "is-new");
   renderHistory();
   els.flip.setAttribute("aria-label", "Pesca una carta");
 
