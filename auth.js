@@ -22,12 +22,12 @@ const el = {
 
 const TESTI = {
   register: {
-    sub: "Crea il tuo account per entrare nel Creatore di Carte: le 40 carte del mazzo siciliano di Regnum Solis ti aspettano.",
-    switchText: "Hai già un account?", switchBtn: "Accedi", autocomplete: "new-password",
+    sub: "Crea il tuo account per pescare dal mazzo.",
+    switchText: "Hai già un account?", switchBtn: "Accedi", autocomplete: "new-password", submit: "Registrati",
   },
   login: {
-    sub: "Bentornato nel Regno. Accedi per tornare al Creatore di Carte.",
-    switchText: "Non hai ancora un account?", switchBtn: "Registrati", autocomplete: "current-password",
+    sub: "Bentornato nel Regno.",
+    switchText: "Non hai ancora un account?", switchBtn: "Registrati", autocomplete: "current-password", submit: "Accedi",
   },
 };
 
@@ -41,7 +41,8 @@ const ERRORI = {
   GENERICO: "Qualcosa è andato storto. Riprova tra poco.",
 };
 
-let mode = new URLSearchParams(location.search).has("accedi") ? "login" : "register";
+const subito = new URLSearchParams(location.search).has("accedi");
+let mode = subito ? "login" : "register";
 let tentato = false;
 
 function setMode(m) {
@@ -57,6 +58,7 @@ function setMode(m) {
   el.sub.textContent = t.sub;
   el.switchText.textContent = t.switchText;
   el.switchBtn.textContent = t.switchBtn;
+  if (!el.submit.disabled) el.submitLabel.textContent = t.submit;
   tentato = false;
   mostraErrore(el.email, el.emailErr, "");
   mostraErrore(el.password, el.pwErr, "");
@@ -96,7 +98,7 @@ function salvaSessione(s) {
 
 function occupato(on) {
   el.submit.disabled = on;
-  el.submitLabel.textContent = on ? "Un momento…" : "Entra nel Creatore di Carte";
+  el.submitLabel.textContent = on ? "Un momento…" : TESTI[mode].submit;
 }
 
 async function invia(e) {
@@ -176,4 +178,27 @@ document.querySelector(".tabs").addEventListener("keydown", (e) => {
   next.focus();
 });
 
+// La scheda compare solo dopo "Entra e gioca"
+const intro = $("intro"), sheet = $("sheet"), playBtn = $("playBtn");
+function apriScheda(m) {
+  setMode(m);
+  intro.hidden = true;
+  sheet.hidden = false;
+  playBtn.setAttribute("aria-expanded", "true");
+  sheet.classList.remove("is-in"); void sheet.offsetWidth; sheet.classList.add("is-in");
+  el.email.focus({ preventScroll: true });
+  window.scrollTo({ top: 0 });
+}
+function chiudiScheda() {
+  sheet.hidden = true;
+  intro.hidden = false;
+  playBtn.setAttribute("aria-expanded", "false");
+  playBtn.focus();
+}
+playBtn.addEventListener("click", () => apriScheda("register"));
+$("introLogin").addEventListener("click", () => apriScheda("login"));
+$("backBtn").addEventListener("click", chiudiScheda);
+document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !sheet.hidden && !el.submit.disabled) chiudiScheda(); });
+
 setMode(mode);
+if (subito) apriScheda("login");

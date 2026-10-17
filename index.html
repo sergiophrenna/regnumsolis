@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0E0A07">
-  <meta name="description" content="Entra nel Creatore di Carte di Regnum Solis: pesca dal mazzo siciliano illustrato per la Sicilia medievale.">
-  <title>Regnum Solis · Il Creatore di Carte</title>
+  <meta name="description" content="Le carte di Regnum Solis: pesca dal mazzo siciliano illustrato per la Sicilia medievale.">
+  <title>Le carte di Regnum Solis</title>
   <link rel="icon" type="image/png" href="./assets/brand/favicon.png">
   <link rel="apple-touch-icon" href="./assets/brand/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+SC:wght@500;600;700&family=Open+Sans:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="preload" as="font" type="font/woff2" href="./assets/fonts/sachsenwald-regular.woff2" crossorigin>
-  <link rel="stylesheet" href="./style.css?v=17">
-  <link rel="stylesheet" href="./landing.css?v=17">
-  <script src="./config.js?v=17"></script>
+  <link rel="stylesheet" href="./style.css?v=18">
+  <link rel="stylesheet" href="./landing.css?v=18">
+  <script src="./config.js?v=18"></script>
   <script>
     // Già dentro? Vai dritto alle carte
     (function () {
@@ -32,7 +32,20 @@
   <main class="lp">
     <img class="lp-logo" src="./assets/brand/regnum-solis-bianco.png" alt="Regnum Solis" width="900" height="224">
 
-    <section class="sheet" aria-labelledby="lpTitle">
+    <section class="intro" id="intro" aria-labelledby="lpTitle">
+      <span class="intro-cards" aria-hidden="true">
+        <img src="./assets/cards/retro.png" alt="" width="456" height="712">
+        <img src="./assets/cards/retro.png" alt="" width="456" height="712">
+        <img src="./assets/cards/retro.png" alt="" width="456" height="712">
+      </span>
+      <h1 class="lp-title" id="lpTitle">Le carte di Regnum Solis</h1>
+      <p class="intro-sub">Il mazzo siciliano illustrato per la Sicilia medievale: 40 carte da pescare, una alla volta.</p>
+      <div class="divider" aria-hidden="true"><span></span><i></i><span></span></div>
+      <button class="btn btn--primary intro-cta" id="playBtn" type="button" aria-controls="sheet" aria-expanded="false"><i aria-hidden="true"></i>Entra e gioca<i aria-hidden="true"></i></button>
+      <p class="lp-switch">Hai già un account? <button type="button" id="introLogin">Accedi</button></p>
+    </section>
+
+    <section class="sheet" id="sheet" aria-label="Registrazione e accesso" hidden>
       <div class="sheet-crown" aria-hidden="true">
         <span class="crown-cards">
           <img src="./assets/cards/retro.png" alt="" width="456" height="712">
@@ -40,13 +53,9 @@
           <img src="./assets/cards/retro.png" alt="" width="456" height="712">
         </span>
       </div>
-      <span class="sheet-col sheet-col--l" aria-hidden="true"></span>
-      <span class="sheet-col sheet-col--r" aria-hidden="true"></span>
 
       <div class="sheet-body">
-        <h1 class="lp-title" id="lpTitle">Il Mazzo del Regno</h1>
-        <p class="lp-sub" id="lpSub">Crea il tuo account per entrare nel Creatore di Carte: le 40 carte del mazzo siciliano di Regnum Solis ti aspettano.</p>
-        <div class="divider" aria-hidden="true"><span></span><i></i><span></span></div>
+        <button class="sheet-back" id="backBtn" type="button">← Indietro</button>
 
         <div class="tabs" role="tablist" aria-label="Tipo di accesso">
           <button class="tab" id="tabReg" type="button" role="tab" aria-selected="true" aria-controls="authForm">Registrati</button>
@@ -54,6 +63,7 @@
         </div>
 
         <form class="auth" id="authForm" role="tabpanel" aria-labelledby="tabReg" novalidate>
+          <p class="lp-sub" id="lpSub"></p>
           <div class="field">
             <label for="email">Email</label>
             <input id="email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" required aria-describedby="emailErr">
@@ -78,7 +88,7 @@
 
           <p class="form-msg" id="formMsg" role="alert"></p>
 
-          <button class="btn btn--primary" id="submitBtn" type="submit"><i aria-hidden="true"></i><span id="submitLabel">Entra nel Creatore di Carte</span><i aria-hidden="true"></i></button>
+          <button class="btn btn--primary" id="submitBtn" type="submit"><i aria-hidden="true"></i><span id="submitLabel">Registrati</span><i aria-hidden="true"></i></button>
 
           <p class="lp-switch"><span id="switchText">Hai già un account?</span> <button type="button" id="switchBtn">Accedi</button></p>
           <p class="lp-privacy">Usiamo la tua email per l'accesso e, solo se lo scegli, per la mailing list.</p>
@@ -102,6 +112,6 @@
     </div>
   </footer>
 
-  <script src="./auth.js?v=17" defer></script>
+  <script src="./auth.js?v=18" defer></script>
 </body>
 </html>
