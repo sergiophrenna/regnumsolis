@@ -191,3 +191,9 @@ function emailValida_(email) {
 function risposta_(obj) {
   return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
 }
+
+/** Esegui una volta dall'editor per autorizzare la verifica degli accessi Google. */
+function autorizzaGoogle() {
+  ScriptApp.requireScopes(ScriptApp.AuthMode.FULL, ["https://www.googleapis.com/auth/script.external_request"]);
+  Logger.log(UrlFetchApp.fetch("https://oauth2.googleapis.com/tokeninfo?id_token=x", { muteHttpExceptions: true }).getResponseCode());
+}
