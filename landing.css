@@ -204,3 +204,10 @@ body.landing::after {
   .sheet-body { padding: 26px 20px 22px; }
   .lp-sub { font-size: 18px; }
 }
+
+/* ---------- Continua con Google ---------- */
+.google { margin-top: 14px; }
+.oppure { display: flex; align-items: center; gap: 12px; margin: 0 0 12px; }
+.oppure::before, .oppure::after { content: ""; flex: 1; height: 1px; background: rgba(217,174,74,.45); }
+.oppure span { font-family: var(--f-display); font-weight: 600; font-size: 14px; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,244,226,.6); }
+.google-btn { display: flex; justify-content: center; min-height: 44px; }

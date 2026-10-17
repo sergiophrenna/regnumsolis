@@ -3,5 +3,7 @@
    Istruzioni complete nel README, sezione "Accesso e mailing list". */
 window.RS_CONFIG = {
   SHEETS_URL: "https://script.google.com/macros/s/AKfycbyLr75U7h6pxVjGQGpwrGjAWUU16j0tDILSE4XFCYV0a9VIGx6FZwz8SmasryoOGu7XMQ/exec",
+  // ID client OAuth per "Continua con Google" (vuoto = pulsante nascosto)
+  GOOGLE_CLIENT_ID: "",
   SESSIONE_GIORNI: 30
 };

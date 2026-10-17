@@ -38,6 +38,8 @@ const ERRORI = {
   PASSWORD_CORTA: `La password deve avere almeno ${PASSWORD_MIN} caratteri.`,
   RETE: "Connessione non riuscita. Controlla la rete e riprova.",
   CONFIG: "L'accesso non è ancora attivo: manca il collegamento al foglio Google.",
+  USA_GOOGLE: "Questa email è collegata a Google: usa il pulsante «Continua con Google».",
+  GOOGLE_NON_VALIDO: "Accesso con Google non riuscito. Riprova.",
   GENERICO: "Qualcosa è andato storto. Riprova tra poco.",
 };
 
@@ -45,7 +47,7 @@ const subito = new URLSearchParams(location.search).has("accedi");
 let mode = subito ? "login" : "register";
 let tentato = false;
 
-function setMode(m) {
+let setMode = function (m) {
   mode = m;
   const t = TESTI[m];
   const reg = m === "register";
@@ -119,6 +121,10 @@ async function invia(e) {
   };
   if (mode === "register") body.newsletter = el.newsletter.checked;
 
+  await chiama(body);
+}
+
+async function chiama(body) {
   let res;
   try {
     const r = await fetch(CFG.SHEETS_URL, {
@@ -136,7 +142,7 @@ async function invia(e) {
   if (res && res.ok && res.token) {
     salvaSessione(res);
     el.submitLabel.textContent = "Benvenuto nel Regno";
-    messaggio(mode === "register" ? "Account creato. Apriamo il mazzo…" : "Accesso riuscito. Apriamo il mazzo…", "ok");
+    messaggio(res.nuovo || (mode === "register" && body.action !== "google") ? "Account creato. Apriamo il mazzo…" : "Accesso riuscito. Apriamo il mazzo…", "ok");
     setTimeout(() => location.assign(DESTINAZIONE), 450);
     return;
   }
@@ -186,6 +192,7 @@ function apriScheda(m) {
   sheet.hidden = false;
   playBtn.setAttribute("aria-expanded", "true");
   sheet.classList.remove("is-in"); void sheet.offsetWidth; sheet.classList.add("is-in");
+  if (typeof disegnaGoogle === "function") disegnaGoogle();
   el.email.focus({ preventScroll: true });
   window.scrollTo({ top: 0 });
 }
@@ -200,5 +207,39 @@ $("introLogin").addEventListener("click", () => apriScheda("login"));
 $("backBtn").addEventListener("click", chiudiScheda);
 document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !sheet.hidden && !el.submit.disabled) chiudiScheda(); });
 
+// ---------- Continua con Google (Google Identity Services) ----------
+let googlePronto = false;
+function disegnaGoogle() {
+  if (!googlePronto) return;
+  const box = $("googleBtn");
+  box.innerHTML = "";
+  google.accounts.id.renderButton(box, {
+    theme: "filled_black", size: "large", shape: "rectangular", logo_alignment: "center",
+    text: mode === "login" ? "signin_with" : "continue_with",
+    width: Math.min(400, Math.max(220, Math.round(box.clientWidth || 320))), locale: "it",
+  });
+}
+function avviaGoogle() {
+  if (!CFG.GOOGLE_CLIENT_ID || !CFG.SHEETS_URL) return;
+  if (!(window.google && google.accounts && google.accounts.id)) { setTimeout(avviaGoogle, 200); return; }
+  google.accounts.id.initialize({
+    client_id: CFG.GOOGLE_CLIENT_ID,
+    callback: (r) => {
+      if (!r || !r.credential) { messaggio(ERRORI.GOOGLE_NON_VALIDO); return; }
+      messaggio("");
+      occupato(true);
+      chiama({ action: "google", credential: r.credential, newsletter: mode === "register" && el.newsletter.checked });
+    },
+    ux_mode: "popup", context: "signin", itp_support: true,
+  });
+  googlePronto = true;
+  $("googleBox").hidden = false;
+  if (!sheet.hidden) disegnaGoogle();
+}
+
+const setModeBase = setMode;
+setMode = (m) => { setModeBase(m); disegnaGoogle(); };
+
 setMode(mode);
+avviaGoogle();
 if (subito) apriScheda("login");

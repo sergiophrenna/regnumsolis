@@ -11,9 +11,11 @@
 var FOGLIO = "Utenti";
 var INTESTAZIONI = [
   "Data registrazione", "Email", "Newsletter", "Data consenso newsletter",
-  "Hash password", "Sale", "Token", "Token creato", "Ultimo accesso"
+  "Hash password", "Sale", "Token", "Token creato", "Ultimo accesso", "Metodo"
 ];
-var COL = { data: 1, email: 2, newsletter: 3, consenso: 4, hash: 5, sale: 6, token: 7, tokenCreato: 8, ultimo: 9 };
+var COL = { data: 1, email: 2, newsletter: 3, consenso: 4, hash: 5, sale: 6, token: 7, tokenCreato: 8, ultimo: 9, metodo: 10 };
+// ID client OAuth del sito (Google Cloud Console → Credenziali). Deve coincidere con config.js
+var GOOGLE_CLIENT_ID = "";
 var SESSIONE_GIORNI = 30;
 var PASSWORD_MIN = 8;
 var ITERAZIONI = 1000;
@@ -32,6 +34,7 @@ function doPost(e) {
       case "register": return risposta_(registra_(req));
       case "login":    return risposta_(accedi_(req));
       case "verify":   return risposta_(verifica_(req));
+      case "google":   return risposta_(google_(req));
       default:         return risposta_({ ok: false, code: "AZIONE_SCONOSCIUTA" });
     }
   } catch (err) {
@@ -52,7 +55,11 @@ function registra_(req) {
   if (!req.password || String(req.password).length < PASSWORD_MIN) return { ok: false, code: "PASSWORD_CORTA" };
 
   var sh = foglio_();
-  if (trovaRiga_(sh, email)) return { ok: false, code: "EMAIL_ESISTENTE" };
+  var esistente = trovaRiga_(sh, email);
+  if (esistente) {
+    var solaGoogle = !sh.getRange(esistente, COL.hash).getValue();
+    return { ok: false, code: solaGoogle ? "USA_GOOGLE" : "EMAIL_ESISTENTE" };
+  }
 
   var ora = new Date();
   var sale = Utilities.getUuid();
@@ -60,7 +67,7 @@ function registra_(req) {
   var newsletter = req.newsletter === true;
   sh.appendRow([
     ora, email, newsletter ? "SI" : "NO", newsletter ? ora : "",
-    hash_(String(req.password), sale), sale, token, ora, ora
+    hash_(String(req.password), sale), sale, token, ora, ora, "Email"
   ]);
   return { ok: true, email: email, token: token };
 }
@@ -71,6 +78,7 @@ function accedi_(req) {
   var riga = trovaRiga_(sh, email);
   if (!riga) return { ok: false, code: "CREDENZIALI_ERRATE" };
   var valori = sh.getRange(riga, 1, 1, INTESTAZIONI.length).getValues()[0];
+  if (!valori[COL.hash - 1]) return { ok: false, code: "USA_GOOGLE" };
   if (hash_(String(req.password || ""), valori[COL.sale - 1]) !== valori[COL.hash - 1]) {
     return { ok: false, code: "CREDENZIALI_ERRATE" };
   }
@@ -93,6 +101,38 @@ function verifica_(req) {
   return { ok: true };
 }
 
+/** Accesso con Google: verifica l'ID token di Google Identity Services e crea o apre l'account. */
+function google_(req) {
+  if (!GOOGLE_CLIENT_ID || !req.credential) return { ok: false, code: "GOOGLE_NON_VALIDO" };
+  var r = UrlFetchApp.fetch(
+    "https://oauth2.googleapis.com/tokeninfo?id_token=" + encodeURIComponent(req.credential),
+    { muteHttpExceptions: true }
+  );
+  if (r.getResponseCode() !== 200) return { ok: false, code: "GOOGLE_NON_VALIDO" };
+  var p = JSON.parse(r.getContentText());
+  var issOk = p.iss === "accounts.google.com" || p.iss === "https://accounts.google.com";
+  if (p.aud !== GOOGLE_CLIENT_ID || !issOk || String(p.email_verified) !== "true" || Number(p.exp) * 1000 < Date.now()) {
+    return { ok: false, code: "GOOGLE_NON_VALIDO" };
+  }
+  var email = normalizzaEmail_(p.email);
+  if (!emailValida_(email)) return { ok: false, code: "EMAIL_NON_VALIDA" };
+
+  var sh = foglio_();
+  var riga = trovaRiga_(sh, email);
+  var ora = new Date();
+  var token = nuovoToken_();
+  var newsletter = req.newsletter === true;
+  if (riga) {
+    sh.getRange(riga, COL.token, 1, 3).setValues([[token, ora, ora]]);
+    if (newsletter && sh.getRange(riga, COL.newsletter).getValue() !== "SI") {
+      sh.getRange(riga, COL.newsletter, 1, 2).setValues([["SI", ora]]);
+    }
+    return { ok: true, email: email, token: token, nuovo: false };
+  }
+  sh.appendRow([ora, email, newsletter ? "SI" : "NO", newsletter ? ora : "", "", "", token, ora, ora, "Google"]);
+  return { ok: true, email: email, token: token, nuovo: true };
+}
+
 /* ---------- utilità ---------- */
 
 function foglio_() {
@@ -107,6 +147,10 @@ function foglio_() {
     sh.setFrozenRows(1);
     sh.getRange(1, 1, 1, INTESTAZIONI.length).setFontWeight("bold");
     sh.hideColumns(COL.hash, 4); // hash, sale, token, token creato
+  }
+  // Fogli creati prima della colonna "Metodo"
+  if (!sh.getRange(1, COL.metodo).getValue()) {
+    sh.getRange(1, COL.metodo).setValue("Metodo").setFontWeight("bold");
   }
   return sh;
 }
