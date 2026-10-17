@@ -99,7 +99,10 @@ function foglio_() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sh = ss.getSheetByName(FOGLIO);
   if (!sh) {
-    sh = ss.insertSheet(FOGLIO);
+    // Usa il primo foglio se è ancora vuoto (es. "Foglio1"), altrimenti ne crea uno nuovo
+    var primo = ss.getSheets()[0];
+    if (primo && primo.getLastRow() === 0) { sh = primo; sh.setName(FOGLIO); }
+    else sh = ss.insertSheet(FOGLIO);
     sh.appendRow(INTESTAZIONI);
     sh.setFrozenRows(1);
     sh.getRange(1, 1, 1, INTESTAZIONI.length).setFontWeight("bold");
