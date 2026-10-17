@@ -28,7 +28,7 @@ body.landing::after {
 /* ---------- Pannello in stile scheda personaggio ---------- */
 .sheet {
   --bg: #120E0A;
-  --linea: #FFFFFF;
+  --linea: #D9AE4A; /* oro */
   --crown: .54;
   position: relative;
   width: min(460px, 100%);
@@ -117,7 +117,7 @@ body.landing::after {
   padding: 10px 6px 9px;
   font-family: var(--f-display); font-weight: 700; font-size: 17px; letter-spacing: .14em; text-transform: uppercase;
   color: rgba(255,244,226,.6);
-  border-bottom: 1px solid rgba(255,255,255,.3);
+  border-bottom: 1px solid rgba(217,174,74,.45);
   transition: color 160ms ease, border-color 160ms ease;
 }
 .tab:hover { color: #fff; }
@@ -133,7 +133,7 @@ body.landing::after {
 .field input {
   width: 100%; padding: 8px 2px 7px;
   font: 500 20px/1.25 var(--f-body); color: #fff;
-  background: transparent; border: 0; border-bottom: 1.5px solid rgba(255,255,255,.75); border-radius: 0;
+  background: transparent; border: 0; border-bottom: 1.5px solid var(--linea); border-radius: 0;
   outline: none; transition: border-color 160ms ease;
 }
 .field input:focus { border-bottom-color: var(--giallo); box-shadow: 0 1px 0 0 var(--giallo); }
@@ -161,7 +161,7 @@ body.landing::after {
 .check input { position: absolute; opacity: 0; width: 1px; height: 1px; }
 .check-box {
   flex: none; width: 22px; height: 22px; margin-top: 2px;
-  border: 1.5px solid #fff; display: grid; place-items: center;
+  border: 1.5px solid var(--linea); display: grid; place-items: center;
   transition: background 140ms ease, border-color 140ms ease;
 }
 .check-box::after { content: ""; width: 8px; height: 8px; background: var(--blu); transform: rotate(45deg) scale(0); transition: transform 140ms ease; }
