@@ -98,7 +98,13 @@ function salvaSessione(s) {
   try { sessionStorage.setItem(KEY, v); } catch (e) { /* nessuna memoria: la sessione dura la pagina */ }
 }
 
+let attesaTimer = 0;
 function occupato(on) {
+  clearTimeout(attesaTimer);
+  if (on) {
+    messaggio("Collegamento al Regno in corso…", "ok");
+    attesaTimer = setTimeout(() => messaggio("Ancora qualche secondo: stiamo aprendo le porte del Regno…", "ok"), 4000);
+  }
   el.submit.disabled = on;
   el.submitLabel.textContent = on ? "Un momento…" : TESTI[mode].submit;
 }
@@ -140,6 +146,7 @@ async function chiama(body) {
   }
 
   if (res && res.ok && res.token) {
+    clearTimeout(attesaTimer);
     salvaSessione(res);
     el.submitLabel.textContent = "Benvenuto nel Regno";
     messaggio(res.nuovo || (mode === "register" && body.action !== "google") ? "Account creato. Apriamo il mazzo…" : "Accesso riuscito. Apriamo il mazzo…", "ok");
@@ -220,7 +227,7 @@ function disegnaGoogle() {
   });
 }
 function avviaGoogle() {
-  if (!CFG.GOOGLE_CLIENT_ID || !CFG.SHEETS_URL) return;
+  if (!CFG.GOOGLE_ATTIVO || !CFG.GOOGLE_CLIENT_ID || !CFG.SHEETS_URL) return;
   if (!(window.google && google.accounts && google.accounts.id)) { setTimeout(avviaGoogle, 200); return; }
   google.accounts.id.initialize({
     client_id: CFG.GOOGLE_CLIENT_ID,

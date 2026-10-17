@@ -83,8 +83,8 @@ function accedi_(req) {
     return { ok: false, code: "CREDENZIALI_ERRATE" };
   }
   var ora = new Date();
-  var token = nuovoToken_();
-  sh.getRange(riga, COL.token, 1, 3).setValues([[token, ora, ora]]);
+  var token = tokenValido_(valori) || nuovoToken_();
+  sh.getRange(riga, COL.token, 1, 3).setValues([[token, token === valori[COL.token - 1] ? valori[COL.tokenCreato - 1] : ora, ora]]);
   return { ok: true, email: email, token: token };
 }
 
@@ -123,7 +123,10 @@ function google_(req) {
   var token = nuovoToken_();
   var newsletter = req.newsletter === true;
   if (riga) {
-    sh.getRange(riga, COL.token, 1, 3).setValues([[token, ora, ora]]);
+    var val = sh.getRange(riga, 1, 1, INTESTAZIONI.length).getValues()[0];
+    var vecchio = tokenValido_(val);
+    if (vecchio) token = vecchio;
+    sh.getRange(riga, COL.token, 1, 3).setValues([[token, vecchio ? val[COL.tokenCreato - 1] : ora, ora]]);
     if (newsletter && sh.getRange(riga, COL.newsletter).getValue() !== "SI") {
       sh.getRange(riga, COL.newsletter, 1, 2).setValues([["SI", ora]]);
     }
@@ -173,6 +176,13 @@ function hash_(password, sale) {
     );
   }
   return h;
+}
+
+/** Riusa la sessione ancora valida, così un nuovo accesso non scollega gli altri dispositivi. */
+function tokenValido_(valori) {
+  var t = valori[COL.token - 1], creato = valori[COL.tokenCreato - 1];
+  if (!t || !(creato instanceof Date)) return "";
+  return (Date.now() - creato.getTime()) < (SESSIONE_GIORNI - 1) * 864e5 ? String(t) : "";
 }
 
 function nuovoToken_() {
