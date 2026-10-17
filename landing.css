@@ -211,3 +211,5 @@ body.landing::after {
 .oppure::before, .oppure::after { content: ""; flex: 1; height: 1px; background: rgba(217,174,74,.45); }
 .oppure span { font-family: var(--f-display); font-weight: 600; font-size: 14px; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,244,226,.6); }
 .google-btn { display: flex; justify-content: center; min-height: 44px; }
+
+.lp-privacy a { color: rgba(248,174,3,.85); }

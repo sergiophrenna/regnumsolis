@@ -15,7 +15,7 @@ var INTESTAZIONI = [
 ];
 var COL = { data: 1, email: 2, newsletter: 3, consenso: 4, hash: 5, sale: 6, token: 7, tokenCreato: 8, ultimo: 9, metodo: 10 };
 // ID client OAuth del sito (Google Cloud Console → Credenziali). Deve coincidere con config.js
-var GOOGLE_CLIENT_ID = "";
+var GOOGLE_CLIENT_ID = "1009348820708-fc6amua6pso7ngo2kpr7l84897q7h8m9.apps.googleusercontent.com";
 var SESSIONE_GIORNI = 30;
 var PASSWORD_MIN = 8;
 var ITERAZIONI = 1000;
