@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#15110C">
+  <meta name="description" content="Pesca una carta dal mazzo siciliano di Regnum Solis: 40 carte, senza reinserimento.">
+  <title>Regnum Solis · Il Mazzo Siciliano</title>
+  <meta name="robots" content="noindex">
+  <script src="./config.js?v=17"></script>
+  <script src="./gate.js?v=17"></script>
+  <link rel="icon" type="image/png" href="./assets/brand/favicon.png">
+  <link rel="apple-touch-icon" href="./assets/brand/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+SC:wght@500;600;700&family=Open+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="./assets/cards/retro.png">
+  <link rel="preload" as="font" type="font/woff2" href="./assets/fonts/sachsenwald-regular.woff2" crossorigin>
+  <link rel="stylesheet" href="./style.css?v=17">
+</head>
+<body>
+  <svg class="xx" viewBox="0 0 90 300" aria-hidden="true"><path d="M10 10l70 70M80 10L10 80" stroke="#D1322D"/><path d="M10 115l70 70M80 115l-70 70" stroke="#F8AE03"/><path d="M10 220l70 70M80 220l-70 70" stroke="#3A5A99"/></svg>
+  <div class="app">
+    <header class="topbar">
+      <img class="logo-rs" src="./assets/brand/regnum-solis-bianco.png" alt="Regnum Solis" width="900" height="224">
+    </header>
+
+    <main class="table">
+      <section class="deck" aria-label="Mazzo">
+        <button class="deck-stack" id="deckBtn" type="button" aria-label="Pesca una carta dal mazzo">
+          <img src="./assets/cards/retro.png" alt="" class="deck-card deck-card--3">
+          <img src="./assets/cards/retro.png" alt="" class="deck-card deck-card--2">
+          <img src="./assets/cards/retro.png" alt="" class="deck-card deck-card--1">
+        </button>
+        <p class="deck-hint" id="deckHint">40 carte · Tocca per pescare</p>
+      </section>
+
+      <section class="stage" aria-label="Carta pescata">
+        <button class="flip" id="flip" type="button" aria-label="Pesca una carta">
+          <span class="flip-inner">
+            <span class="face face--back"><img src="./assets/cards/retro.png" alt="Retro della carta"></span>
+            <span class="face face--front"><img id="frontImg" src="./assets/cards/retro.png" alt=""></span>
+          </span>
+        </button>
+      </section>
+
+      <section class="panel" aria-live="polite">
+        <div class="divider" aria-hidden="true"><span></span><i></i><span></span></div>
+        <h1 class="card-name" id="cardName">Tocca il mazzo</h1>
+        <div class="history">
+          <p class="history-label">Ultime pescate</p>
+          <ul class="chips" id="history"><li class="chips-empty">Nessuna pescata, per ora</li></ul>
+        </div>
+        <p class="panel-tip">Le carte pescate escono dal mazzo: tornano solo quando rimescoli.</p>
+      </section>
+
+      <div class="actions">
+        <button class="btn btn--primary" id="drawBtn" type="button"><i aria-hidden="true"></i><span id="drawLabel">Pesca una carta</span><i aria-hidden="true"></i></button>
+        <button class="btn btn--secondary" id="shuffleBtn" type="button"><i aria-hidden="true"></i>Rimescola<i aria-hidden="true"></i></button>
+      </div>
+    </main>
+
+  </div>
+
+  <footer class="site-footer">
+    <div class="sf-inner">
+      <a class="sf-brand" href="https://mulciber-games.sumupstore.com/pagina/chi-siamo" target="_blank" rel="noopener">
+        <img src="./assets/brand/mulciber-press.png" alt="Mulciber Press" width="600" height="138">
+      </a>
+      <nav class="sf-links" aria-label="Canali Mulciber Press">
+        <button class="sf-exit" id="logoutBtn" type="button">Esci</button>
+        <a class="sf-store" href="https://mulciber-games.sumupstore.com/" target="_blank" rel="noopener">Store</a>
+        <a class="sf-icon" href="https://instagram.com/regnumsolis" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><img src="./assets/brand/instagram.png" alt="" width="100" height="100"></a>
+        <a class="sf-icon" href="https://www.kickstarter.com/projects/mulcibergames/regnum-solis-la-sicilia-medievale-in-gdr" target="_blank" rel="noopener" aria-label="Kickstarter" title="Kickstarter"><img src="./assets/brand/kickstarter.png" alt="" width="89" height="100"></a>
+        <a class="sf-icon" href="https://discord.gg/AQD8jS86pF" target="_blank" rel="noopener" aria-label="Discord" title="Discord"><img src="./assets/brand/discord.png" alt="" width="100" height="100"></a>
+      </nav>
+      <p class="sf-copy">© 2026 Mulciber Press · Regnum Solis</p>
+    </div>
+  </footer>
+  <script src="./app.js?v=17" defer></script>
+</body>
+</html>

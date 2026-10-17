@@ -3,61 +3,89 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#15110C">
-  <meta name="description" content="Pesca una carta dal mazzo siciliano di Regnum Solis: 40 carte, senza reinserimento.">
-  <title>Regnum Solis · Il Mazzo Siciliano</title>
+  <meta name="theme-color" content="#0E0A07">
+  <meta name="description" content="Entra nel Creatore di Carte di Regnum Solis: pesca dal mazzo siciliano illustrato per la Sicilia medievale.">
+  <title>Regnum Solis · Il Creatore di Carte</title>
   <link rel="icon" type="image/png" href="./assets/brand/favicon.png">
   <link rel="apple-touch-icon" href="./assets/brand/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+SC:wght@500;600;700&family=Open+Sans:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="preload" as="image" href="./assets/cards/retro.png">
   <link rel="preload" as="font" type="font/woff2" href="./assets/fonts/sachsenwald-regular.woff2" crossorigin>
-  <link rel="stylesheet" href="./style.css?v=16">
+  <link rel="stylesheet" href="./style.css?v=17">
+  <link rel="stylesheet" href="./landing.css?v=17">
+  <script src="./config.js?v=17"></script>
+  <script>
+    // Già dentro? Vai dritto alle carte
+    (function () {
+      try {
+        var s = JSON.parse(localStorage.getItem("rs_sessione") || sessionStorage.getItem("rs_sessione") || "null");
+        var g = (window.RS_CONFIG && RS_CONFIG.SESSIONE_GIORNI) || 30;
+        if (s && s.token && s.email && Date.now() - (s.at || 0) < g * 864e5) location.replace("./carte.html");
+      } catch (e) {}
+    })();
+  </script>
 </head>
-<body>
+<body class="landing">
   <svg class="xx" viewBox="0 0 90 300" aria-hidden="true"><path d="M10 10l70 70M80 10L10 80" stroke="#D1322D"/><path d="M10 115l70 70M80 115l-70 70" stroke="#F8AE03"/><path d="M10 220l70 70M80 220l-70 70" stroke="#3A5A99"/></svg>
-  <div class="app">
-    <header class="topbar">
-      <img class="logo-rs" src="./assets/brand/regnum-solis-bianco.png" alt="Regnum Solis" width="900" height="224">
-    </header>
 
-    <main class="table">
-      <section class="deck" aria-label="Mazzo">
-        <button class="deck-stack" id="deckBtn" type="button" aria-label="Pesca una carta dal mazzo">
-          <img src="./assets/cards/retro.png" alt="" class="deck-card deck-card--3">
-          <img src="./assets/cards/retro.png" alt="" class="deck-card deck-card--2">
-          <img src="./assets/cards/retro.png" alt="" class="deck-card deck-card--1">
-        </button>
-        <p class="deck-hint" id="deckHint">40 carte · Tocca per pescare</p>
-      </section>
+  <main class="lp">
+    <img class="lp-logo" src="./assets/brand/regnum-solis-bianco.png" alt="Regnum Solis" width="900" height="224">
 
-      <section class="stage" aria-label="Carta pescata">
-        <button class="flip" id="flip" type="button" aria-label="Pesca una carta">
-          <span class="flip-inner">
-            <span class="face face--back"><img src="./assets/cards/retro.png" alt="Retro della carta"></span>
-            <span class="face face--front"><img id="frontImg" src="./assets/cards/retro.png" alt=""></span>
-          </span>
-        </button>
-      </section>
-
-      <section class="panel" aria-live="polite">
-        <div class="divider" aria-hidden="true"><span></span><i></i><span></span></div>
-        <h1 class="card-name" id="cardName">Tocca il mazzo</h1>
-        <div class="history">
-          <p class="history-label">Ultime pescate</p>
-          <ul class="chips" id="history"><li class="chips-empty">Nessuna pescata, per ora</li></ul>
-        </div>
-        <p class="panel-tip">Le carte pescate escono dal mazzo: tornano solo quando rimescoli.</p>
-      </section>
-
-      <div class="actions">
-        <button class="btn btn--primary" id="drawBtn" type="button"><i aria-hidden="true"></i><span id="drawLabel">Pesca una carta</span><i aria-hidden="true"></i></button>
-        <button class="btn btn--secondary" id="shuffleBtn" type="button"><i aria-hidden="true"></i>Rimescola<i aria-hidden="true"></i></button>
+    <section class="sheet" aria-labelledby="lpTitle">
+      <div class="sheet-crown" aria-hidden="true">
+        <span class="crown-cards">
+          <img src="./assets/cards/retro.png" alt="" width="456" height="712">
+          <img src="./assets/cards/retro.png" alt="" width="456" height="712">
+          <img src="./assets/cards/retro.png" alt="" width="456" height="712">
+        </span>
       </div>
-    </main>
+      <span class="sheet-col sheet-col--l" aria-hidden="true"></span>
+      <span class="sheet-col sheet-col--r" aria-hidden="true"></span>
 
-  </div>
+      <div class="sheet-body">
+        <h1 class="lp-title" id="lpTitle">Il Mazzo del Regno</h1>
+        <p class="lp-sub" id="lpSub">Crea il tuo account per entrare nel Creatore di Carte: le 40 carte del mazzo siciliano di Regnum Solis ti aspettano.</p>
+        <div class="divider" aria-hidden="true"><span></span><i></i><span></span></div>
+
+        <div class="tabs" role="tablist" aria-label="Tipo di accesso">
+          <button class="tab" id="tabReg" type="button" role="tab" aria-selected="true" aria-controls="authForm">Registrati</button>
+          <button class="tab" id="tabLog" type="button" role="tab" aria-selected="false" aria-controls="authForm">Accedi</button>
+        </div>
+
+        <form class="auth" id="authForm" role="tabpanel" aria-labelledby="tabReg" novalidate>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" required aria-describedby="emailErr">
+            <p class="field-err" id="emailErr" aria-live="polite"></p>
+          </div>
+
+          <div class="field">
+            <label for="password">Password</label>
+            <div class="pw">
+              <input id="password" name="password" type="password" autocomplete="new-password" minlength="8" required aria-describedby="pwHint pwErr">
+              <button class="pw-toggle" id="pwToggle" type="button" aria-pressed="false" aria-controls="password">Mostra</button>
+            </div>
+            <p class="field-hint" id="pwHint">Almeno 8 caratteri</p>
+            <p class="field-err" id="pwErr" aria-live="polite"></p>
+          </div>
+
+          <label class="check" id="newsletterRow">
+            <input type="checkbox" id="newsletter" name="newsletter">
+            <span class="check-box" aria-hidden="true"></span>
+            <span class="check-text">Iscrivimi alla mailing list di Regnum Solis: novità, uscite ed eventi. Puoi disiscriverti quando vuoi.</span>
+          </label>
+
+          <p class="form-msg" id="formMsg" role="alert"></p>
+
+          <button class="btn btn--primary" id="submitBtn" type="submit"><i aria-hidden="true"></i><span id="submitLabel">Entra nel Creatore di Carte</span><i aria-hidden="true"></i></button>
+
+          <p class="lp-switch"><span id="switchText">Hai già un account?</span> <button type="button" id="switchBtn">Accedi</button></p>
+          <p class="lp-privacy">Usiamo la tua email per l'accesso e, solo se lo scegli, per la mailing list.</p>
+        </form>
+      </div>
+    </section>
+  </main>
 
   <footer class="site-footer">
     <div class="sf-inner">
@@ -73,6 +101,7 @@
       <p class="sf-copy">© 2026 Mulciber Press · Regnum Solis</p>
     </div>
   </footer>
-  <script src="./app.js?v=16" defer></script>
+
+  <script src="./auth.js?v=17" defer></script>
 </body>
 </html>

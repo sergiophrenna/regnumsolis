@@ -1,0 +1,184 @@
+/* Regnum Solis · pagina di accesso (si appoggia a style.css per font, colori, bottoni e footer) */
+
+body.landing {
+  height: auto; min-height: 100vh; min-height: 100dvh;
+  overflow-x: hidden; overflow-y: auto;
+  background: #0E0A07;
+}
+body.landing::before {
+  background: url("./assets/brand/accesso-sfondo-m.jpg") center / cover no-repeat;
+}
+@media (min-width: 700px) {
+  body.landing { background-image: none; }
+  body.landing::before { background-image: url("./assets/brand/accesso-sfondo.jpg"); }
+}
+body.landing::after {
+  background:
+    radial-gradient(90% 70% at 50% 50%, rgba(0,0,0,0) 0%, rgba(0,0,0,.45) 100%),
+    linear-gradient(180deg, rgba(0,0,0,.72) 0%, rgba(0,0,0,.8) 100%);
+}
+.landing [hidden] { display: none !important; }
+
+.lp {
+  position: relative; z-index: 1;
+  display: flex; flex-direction: column; align-items: center;
+  padding: max(22px, env(safe-area-inset-top)) var(--gutter) 40px;
+}
+.lp-logo { width: min(200px, 52vw); height: auto; margin-bottom: 18px; }
+
+/* ---------- Pannello in stile scheda personaggio ---------- */
+.sheet {
+  --bg: #120E0A;
+  --linea: #FFFFFF;
+  --crown: .54;
+  position: relative;
+  width: min(460px, 100%);
+  margin-top: calc(min(460px, 100vw - 2 * var(--gutter)) * var(--crown) * 412 / 840 - 4px);
+  background: var(--bg);
+  border: 2.5px solid var(--linea);
+  outline: 1px solid var(--linea); outline-offset: -9px;
+  box-shadow: 0 30px 70px -20px rgba(0,0,0,.8);
+}
+/* Arco gotico della scheda PG come corona del pannello */
+.sheet-crown {
+  position: absolute; z-index: 2; left: 50%; bottom: calc(100% - 2.5px);
+  width: calc(var(--crown) * 100%); aspect-ratio: 840 / 412; transform: translateX(-50%);
+  pointer-events: none;
+}
+.sheet-crown::before, .sheet-crown::after { content: ""; position: absolute; inset: 0; }
+.sheet-crown::before {
+  background: var(--bg);
+  -webkit-mask: url("./assets/ornaments/arco-pieno.png") center / 100% 100% no-repeat;
+          mask: url("./assets/ornaments/arco-pieno.png") center / 100% 100% no-repeat;
+}
+.sheet-crown::after {
+  background: var(--linea);
+  -webkit-mask: url("./assets/ornaments/arco-linee.png") center / 100% 100% no-repeat;
+          mask: url("./assets/ornaments/arco-linee.png") center / 100% 100% no-repeat;
+}
+.crown-cards {
+  position: absolute; z-index: 1; left: 50%; bottom: 7%;
+  width: 15%; aspect-ratio: 57 / 89; transform: translateX(-50%);
+}
+.crown-cards img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  border-radius: 5px; box-shadow: 0 0 0 1px rgba(248,174,3,.85), 0 6px 14px rgba(0,0,0,.6);
+  transform-origin: 50% 110%;
+}
+.crown-cards img:nth-child(1) { transform: rotate(-16deg) translateX(-14%); }
+.crown-cards img:nth-child(2) { transform: rotate(16deg) translateX(14%); }
+.crown-cards img:nth-child(3) { transform: translateY(-6%); }
+
+/* Colonne tortili ai lati (solo schermi larghi) */
+.sheet-col { display: none; }
+@media (min-width: 720px) {
+  .sheet-col {
+    display: block; position: absolute; top: 6%; bottom: 6%; width: 48px;
+    background: url("./assets/ornaments/colonna.png") center / contain no-repeat;
+  }
+  .sheet-col--l { right: calc(100% + 22px); }
+  .sheet-col--r { left: calc(100% + 22px); }
+}
+
+.sheet-body { position: relative; padding: 30px 30px 26px; text-align: center; }
+.lp-title {
+  margin: 0; font-family: var(--f-title); font-weight: 400;
+  font-size: clamp(34px, 9vw, 46px); line-height: 1.05; color: var(--pergamena);
+}
+.lp-sub { margin: 10px auto 0; max-width: 34ch; font-size: 19px; line-height: 1.35; color: var(--nebbia); }
+.sheet .divider { margin: 18px auto 16px; }
+
+/* ---------- Schede Registrati / Accedi ---------- */
+.tabs { display: grid; grid-template-columns: 1fr 1fr; margin: 0 0 22px; }
+.tab {
+  padding: 10px 6px 9px;
+  font-family: var(--f-display); font-weight: 700; font-size: 17px; letter-spacing: .14em; text-transform: uppercase;
+  color: rgba(255,244,226,.6);
+  border-bottom: 1px solid rgba(255,255,255,.3);
+  transition: color 160ms ease, border-color 160ms ease;
+}
+.tab:hover { color: #fff; }
+.tab[aria-selected="true"] { color: var(--giallo); border-bottom: 2px solid var(--giallo); padding-bottom: 8px; }
+
+/* ---------- Campi come le righe della scheda ---------- */
+.auth { text-align: left; }
+.field { margin-bottom: 16px; }
+.field label {
+  display: block; margin-bottom: 2px;
+  font-family: var(--f-title); font-size: 21px; line-height: 1.1; color: var(--pergamena);
+}
+.field input {
+  width: 100%; padding: 8px 2px 7px;
+  font: 500 20px/1.25 var(--f-body); color: #fff;
+  background: transparent; border: 0; border-bottom: 1.5px solid rgba(255,255,255,.75); border-radius: 0;
+  outline: none; transition: border-color 160ms ease;
+}
+.field input:focus { border-bottom-color: var(--giallo); box-shadow: 0 1px 0 0 var(--giallo); }
+.field.has-error input { border-bottom-color: #FF7A6E; box-shadow: 0 1px 0 0 #FF7A6E; }
+.field input:-webkit-autofill {
+  -webkit-text-fill-color: #fff; caret-color: #fff;
+  -webkit-box-shadow: 0 0 0 40px var(--bg) inset; transition: background-color 9999s;
+}
+.pw { position: relative; }
+.pw input { padding-right: 84px; }
+.pw-toggle {
+  position: absolute; right: 0; bottom: 6px; padding: 4px 6px;
+  font-family: var(--f-display); font-weight: 700; font-size: 13px; letter-spacing: .12em; text-transform: uppercase;
+  color: rgba(255,244,226,.75);
+}
+.pw-toggle:hover { color: var(--giallo); }
+.field-hint, .field-err { margin: 5px 0 0; font-size: 16px; line-height: 1.3; }
+.field-hint { font-style: italic; color: rgba(255,244,226,.6); }
+.field-err { color: #FF8F84; }
+.field-err:empty { display: none; }
+.field.has-error .field-hint { display: none; }
+
+/* Checkbox mailing list */
+.check { display: flex; gap: 12px; align-items: flex-start; margin: 4px 0 14px; cursor: pointer; }
+.check input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.check-box {
+  flex: none; width: 22px; height: 22px; margin-top: 2px;
+  border: 1.5px solid #fff; display: grid; place-items: center;
+  transition: background 140ms ease, border-color 140ms ease;
+}
+.check-box::after { content: ""; width: 8px; height: 8px; background: var(--blu); transform: rotate(45deg) scale(0); transition: transform 140ms ease; }
+.check input:checked + .check-box { background: var(--giallo); border-color: var(--giallo); }
+.check input:checked + .check-box::after { transform: rotate(45deg) scale(1); }
+.check input:focus-visible + .check-box { outline: 2px solid var(--giallo); outline-offset: 3px; }
+.check-text { font-size: 17px; line-height: 1.35; color: rgba(255,244,226,.88); }
+
+.form-msg { margin: 0 0 12px; font-size: 17px; line-height: 1.35; text-align: center; }
+.form-msg:empty { display: none; }
+.form-msg[data-tipo="errore"] { color: #FF8F84; }
+.form-msg[data-tipo="ok"] { color: var(--giallo); }
+
+.auth .btn { margin-top: 6px; padding: 0 16px; gap: 10px; font-size: 17px; letter-spacing: .06em; white-space: nowrap; }
+.lp-switch { margin: 16px 0 0; text-align: center; font-size: 17px; color: rgba(255,244,226,.75); }
+.lp-switch button {
+  font-family: var(--f-display); font-weight: 700; letter-spacing: .1em; text-transform: uppercase; font-size: 15px;
+  color: var(--giallo); text-decoration: underline; text-underline-offset: 4px;
+}
+.lp-privacy { margin: 10px 0 0; text-align: center; font-size: 14.5px; font-style: italic; color: rgba(255,244,226,.55); }
+
+@media (min-width: 960px) {
+  .lp { padding-top: 16px; padding-bottom: 20px; }
+  .lp-title { font-size: 40px; }
+  .tab { padding-top: 7px; padding-bottom: 7px; }
+  .tab[aria-selected="true"] { padding-bottom: 6px; }
+  .lp-logo { width: 196px; margin-bottom: 12px; }
+  .sheet { --crown: .5; }
+  .sheet-body { padding: 26px 40px 22px; }
+  .lp-sub { font-size: 18px; margin-top: 8px; max-width: 40ch; }
+  .sheet .divider { margin: 14px auto 12px; }
+  .tabs { margin-bottom: 16px; }
+  .field { margin-bottom: 12px; }
+  .lp-switch { margin-top: 12px; }
+}
+@media (max-width: 420px) {
+  .auth .btn i { display: none; }
+  .auth .btn { font-size: 16px; letter-spacing: .04em; }
+}
+@media (max-width: 400px) {
+  .sheet-body { padding: 26px 20px 22px; }
+  .lp-sub { font-size: 18px; }
+}
